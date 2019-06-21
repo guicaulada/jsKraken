@@ -1,0 +1,28 @@
+{
+  "name": "jskraken",
+  "version": "1.0.0",
+  "description": "Javascript Kraken API",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "node example/example.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sighmir/jsKraken.git"
+  },
+  "author": "Guilherme Caulada (Sighmir)",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Sighmir/jsKraken/issues"
+  },
+  "homepage": "https://github.com/Sighmir/jsKraken#readme",
+  "dependencies": {
+    "xmlhttprequest": "^1.8.0"
+  },
+  "keywords": [
+    "kraken"
+  ]
+}
