@@ -14,7 +14,7 @@ export interface ExecuteArguments {
   options: Options;
 }
 
-export interface JSHelix {
+export interface JSKraken {
   url: string;
   headers: RequestHeaders;
 

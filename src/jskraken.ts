@@ -1,8 +1,9 @@
 import request from "./request";
-import { ExecuteArguments, JSHelix, Options } from "./types/jskraken";
+import { ExecuteArguments, JSKraken, Options } from "./types/jskraken";
+import * as kraken from "./types/kraken";
 import { RequestHeaders } from "./types/request";
 
-export default function jsKraken(clientId: string, token?: string): JSHelix {
+export default function jsKraken(clientId: string, token?: string): JSKraken {
   const url = "https://api.twitch.tv";
   const headers = {
     "Client-ID": clientId,
@@ -27,22 +28,12 @@ export default function jsKraken(clientId: string, token?: string): JSHelix {
     });
   }
 
-  // Ads
-  // function startCommercial(
-  //   body: kraken.StartCommercialBody,
-  //   options: Options = {},
-  // ): Promise<kraken.Response<kraken.StartCommercialData[]>> {
-  //   return execute<kraken.Response<kraken.StartCommercialData[]>>({
-  //     options,
-  //     method: "POST",
-  //     path: "/kraken/channels/commercial",
-  //     body,
-  //   });
-  // }
-
   // Bits
-  function getCheermotes(query, options: Options = {}) {
-    return execute({
+  function getCheermotes(
+    query?: kraken.CheermotesQuery,
+    options: Options = {},
+  ): Promise<kraken.CheermoteResponse> {
+    return execute<kraken.CheermoteResponse>({
       options,
       method: "GET",
       path: "/v5/bits/actions",
@@ -51,71 +42,97 @@ export default function jsKraken(clientId: string, token?: string): JSHelix {
   }
 
   // Channels
-  function getCurrentChannel(options: Options = {}) {
-    return execute({
+  function getCurrentChannel(
+    options: Options = {},
+  ): Promise<kraken.CurrentChannelResponse> {
+    return execute<kraken.CurrentChannelResponse>({
       options,
       method: "GET",
       path: "/kraken/channel",
     });
   }
 
-  function getChannel(options: Options = {}) {
-    return execute({
+  function getChannel(
+    channelId: string,
+    options: Options = {},
+  ): Promise<kraken.ChannelResponse> {
+    return execute<kraken.ChannelResponse>({
       options,
       method: "GET",
-      path: "/kraken/channels/${params[0]}",
+      path: `/kraken/channels/${channelId}`,
     });
   }
 
-  function updateChannel(body, options: Options = {}) {
-    return execute({
+  function updateChannel(
+    channelId: string,
+    body: kraken.UpdateChannelBody,
+    options: Options = {},
+  ): Promise<kraken.ChannelResponse> {
+    return execute<kraken.ChannelResponse>({
       options,
       method: "PUT",
-      path: "/kraken/channels/${params[0]}",
+      path: `/kraken/channels/${channelId}`,
       body,
     });
   }
 
-  function getChannelEditors(options: Options = {}) {
-    return execute({
+  function getChannelEditors(
+    channelId: string,
+    options: Options = {},
+  ): Promise<kraken.ChannelEditorResponse> {
+    return execute<kraken.ChannelEditorResponse>({
       options,
       method: "GET",
-      path: "/kraken/channels/${params[0]}/editors",
+      path: `/kraken/channels/${channelId}/editors`,
     });
   }
 
-  function getChannelFollowers(query, options: Options = {}) {
-    return execute({
+  function getChannelFollowers(
+    channelId: string,
+    query?: kraken.PaginationQuery,
+    options: Options = {},
+  ): Promise<kraken.FollowsResponse> {
+    return execute<kraken.FollowsResponse>({
       options,
       method: "GET",
-      path: "/kraken/channels/${params[0]}/follows",
+      path: `/kraken/channels/${channelId}/follows`,
       query,
     });
   }
 
-  function getChannelTeams(options: Options = {}) {
-    return execute({
+  function getChannelTeams(
+    channelId: string,
+    options: Options = {},
+  ): Promise<kraken.TeamsResponse> {
+    return execute<kraken.TeamsResponse>({
       options,
       method: "GET",
-      path: "/kraken/channels/${params[0]}/teams",
+      path: `/kraken/channels/${channelId}/teams`,
     });
   }
 
-  function getChannelSubscriptions(query, options: Options = {}) {
-    return execute({
+  function getChannelSubscriptions(
+    channelId: string,
+    query?: kraken.PaginationQuery,
+    options: Options = {},
+  ): Promise<kraken.SubscriptionsResponse> {
+    return execute<kraken.SubscriptionsResponse>({
       options,
       method: "GET",
-      path: "/kraken/channels/${params[0]}/subscriptions",
+      path: `/kraken/channels/${channelId}/subscriptions`,
       query,
     });
   }
 
-  function checkChannelSubsctiption(query, options: Options = {}) {
-    return execute({
+  function checkChannelSubsctiption(
+    channelId: string,
+    userId: string,
+    options: Options = {},
+  ): Promise<kraken.SubscriptionData> {
+    return execute<kraken.SubscriptionData>({
       options,
       method: "GET",
-      path: "/kraken/channels/${params[0]}/subscriptions/${params[1]}",
-      query,
+      path: `/kraken/channels/${channelId}/subscriptions/${userId}`,
     });
   }
 
