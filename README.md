@@ -1,13 +1,35 @@
-# jsKraken #
+# jsKraken
 
-**jsKraken** is a Javascript module for working with the [Twitch Kraken API](https://dev.twitch.tv/docs/v5).
+[npm-url]: https://npmjs.org/package/jskraken
+[npm-image]: https://img.shields.io/npm/v/jskraken.svg
+[pipeline-image]: https://github.com/Sighmir/jsKraken/workflows/CI/CD/badge.svg
+[pipeline-url]: https://github.com/Sighmir/jsKraken/actions?query=workflow%3ACI%2FCD
+[coverage-image]: https://codecov.io/gh/Sighmir/jsKraken/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/Sighmir/jsKraken
+[quality-image]: https://sonarcloud.io/api/project_badges/measure?project=jsKraken&metric=alert_status
+[quality-url]: https://sonarcloud.io/dashboard?id=jsKraken
+[depstat-url]: https://david-dm.org/Sighmir/jsKraken
+[depstat-image]: https://david-dm.org/Sighmir/jsKraken/status.svg
+[devdepstat-url]: https://david-dm.org/Sighmir/jsKraken?type=dev
+[devdepstat-image]: https://david-dm.org/Sighmir/jsKraken/dev-status.svg
+
+[![NPM version][npm-image]][npm-url]
+[![Pipeline Status][pipeline-image]][pipeline-url]
+[![Coverage Status][coverage-image]][coverage-url]
+[![Sonarcloud Status][quality-image]][quality-url]
+[![Dependency Status][depstat-image]][depstat-url]
+[![Dev Dependency Status][devdepstat-image]][devdepstat-url]
+
+**jsKraken** is a Typescript wrapper to the [Twitch Kraken API](https://dev.twitch.tv/docs/v5).
 
 ## Requirements
-* Tested against Twitch API v5
-* For Node.js you will need the [xmlhttprequest](https://www.npmjs.com/package/xmlhttprequest) library.
-* A Twitch token, get yours here: https://twitchtokengenerator.com
 
-## Documentation ##
+- Tested against Twitch API v5
+- For Node.js you will need the [xmlhttprequest](https://www.npmjs.com/package/xmlhttprequest) library.
+- A Twitch token, get yours here: https://twitchtokengenerator.com
+
+## Documentation
+
 ### Getting Started
 
 If you are using Node.js, install jsKraken using npm:
@@ -18,35 +40,43 @@ $ npm install jskraken
 
 You can now require and use jskraken like so:
 
-```js
-let KrakenAPI = require('jskraken')
+```ts
+import jsKraken from "jskraken";
 
-const KRAKEN_TOKEN = process.env.KRAKEN_TOKEN
+const KRAKEN_CLIENT = process.env.KRAKEN_CLIENT;
+const KRAKEN_TOKEN = process.env.KRAKEN_TOKEN;
 
-let kapi = new KrakenAPI(KRAKEN_TOKEN)
+const kapi = jsKraken(KRAKEN_CLIENT!, KRAKEN_TOKEN);
 
-kapi.getCurrentUser().then((user) => {
-  kapi.getChannelRooms(user._id).then((data) => {
-    console.log(data)
-  }).catch(err => console.log(err))
-}).catch(err => console.log(err))
+kapi
+  .getCurrentUser()
+  .then((users) => {
+    kapi
+      .getChannelRooms()
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
+  })
+  .catch((err) => console.log(err));
 ```
 
-Refer to the [Kraken API Documentation](https://dev.twitch.tv/docs/v5) and the [jsKraken Example](https://github.com/Sighmir/jsKraken/tree/master/example) for more information.  
+Refer to the [Kraken API Documentation](https://dev.twitch.tv/docs/v5) and the [jsKraken Example](https://github.com/Sighmir/jsKraken/tree/master/example) for more information.
 
 ### Browser
 
 You can also load this script on your browser like so:
 
 ```html
-<script src='https://cdn.jsdelivr.net/npm/jskraken/jsKraken.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/jskraken/dist/bundle.js"></script>
 ```
 
-You can now use the class KrakenAPI normally on the page, like you would on Node.js.
+You can now use jsKraken normally on the page, like you would on Node.js.
 
-## License ##
+## License
+
 ```
-jsKraken - Kraken API Javascript Library.
+jsKraken - Helix API Javascript Library.
 Copyright (C) 2019  Guilherme Caulada (Sighmir)
 
 This program is free software: you can redistribute it and/or modify
