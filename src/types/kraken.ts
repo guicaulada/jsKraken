@@ -1,4 +1,5 @@
 export type integer = number;
+export type float = number;
 
 export type repeatable = string | string[];
 
@@ -11,6 +12,14 @@ export type CheermoteBackground = "light" | "dark";
 export type CheermoteScale = "1" | "1.5" | "2" | "3" | "4";
 
 export type CheermoteState = "static" | "animated";
+
+export type VideoSort = "views" | "time";
+
+export type BroadcastType = "all" | "archive" | "highlight" | "upload";
+
+export type CommercialLength = 30 | 60 | 90 | 120 | 150 | 180;
+
+export type Period = "all" | "day" | "week" | "month";
 
 export enum SubscriptionTier {
   "Tier 1" = "1000",
@@ -63,25 +72,7 @@ export interface CheermoteResponse {
   actions: CheermoteData[];
 }
 
-export interface CurrentChannelResponse {
-  mature: boolean;
-  status: string;
-  broadcaster_language: string;
-  display_name: string;
-  game: string;
-  language: string;
-  _id: string;
-  name: string;
-  created_at: string;
-  updated_at: string;
-  partner: boolean;
-  logo: string;
-  video_banner: string;
-  profile_banner: string;
-  profile_banner_background_color: string;
-  url: string;
-  views: integer;
-  followers: integer;
+export interface CurrentChannelResponse extends ChannelResponse {
   broadcaster_type: string;
   stream_key: string;
   email: string;
@@ -170,6 +161,206 @@ export interface SubscriptionData {
 
 export interface SubscriptionsResponse extends PaginationResponse {
   subscriptions: SubscriptionData[];
+}
+
+export interface ChannelVideosQuery extends PaginationQuery {
+  broadcast_type?: BroadcastType[];
+  language?: string[];
+  sort?: VideoSort;
+}
+
+export interface ChannelVideoChannel {
+  _id: string;
+  display_name: string;
+  name: string;
+}
+
+export interface ChannelVideoFPS {
+  chunked: float;
+  high: float;
+  low: float;
+  medium: float;
+  mobile: float;
+}
+
+export interface ChannelVideoPreview {
+  large: string;
+  medium: string;
+  small: string;
+  template: string;
+}
+
+export interface ChannelVideoResolutions {
+  chunked: string;
+  high: string;
+  low: string;
+  medium: string;
+  mobile: string;
+}
+
+export interface ChannelVideoThumbnailData {
+  type: string;
+  url: string;
+}
+
+export interface ChannelVideoThumbnails {
+  large: ChannelVideoThumbnailData[];
+  medium: ChannelVideoThumbnailData[];
+  small: ChannelVideoThumbnailData[];
+  template: ChannelVideoThumbnailData[];
+}
+
+export interface ChannelVideo {
+  _id: string;
+  broadcast_id: integer;
+  broadcast_type: string;
+  channel: ChannelVideoChannel;
+  created_at: string;
+  description: string;
+  description_html: string;
+  fps: ChannelVideoFPS;
+  game: string;
+  language: string;
+  length: integer;
+  preview: ChannelVideoPreview;
+  published_at: string;
+  resolutions: ChannelVideoResolutions;
+  status: string;
+  tag_list: string;
+  thumbnails: ChannelVideoThumbnails;
+  title: string;
+  url: string;
+  viewable: string;
+  viewable_at: string;
+  views: integer;
+}
+
+export interface ChannelVideosResponse extends PaginationResponse {
+  videos: ChannelVideo[];
+}
+
+export interface ChannelCommercialBody {
+  length: CommercialLength;
+}
+
+export interface ChannelCommercial {
+  Length: integer;
+  Message: string;
+  RetryAfter: integer;
+}
+
+export interface ChannelBadge {
+  alpha: string;
+  image: string;
+  svg: string;
+}
+
+export interface ChannelBadges {
+  admin: ChannelBadge;
+  broadcaster: ChannelBadge;
+  global_mod: ChannelBadge;
+  mod: ChannelBadge;
+  staff: ChannelBadge;
+  subscriber: ChannelBadge;
+  turbo: ChannelBadge;
+}
+
+export interface EmoticonsSetQuery {
+  emotesets: integer[];
+}
+
+export interface SetEmoticon {
+  code: string;
+  emoticon_set?: integer;
+  id: integer;
+}
+
+export interface EmoticonsSetResponse {
+  emoticon_sets?: map<SetEmoticon[]>;
+  emoticons?: SetEmoticon[];
+}
+
+export interface EmoticonImage {
+  width: integer;
+  height: integer;
+  url: string;
+  emoticon_set: integer;
+}
+
+export interface Emoticon {
+  id: integer;
+  regex: string;
+  images: EmoticonImage[];
+}
+
+export interface SelfLink {
+  self: string;
+}
+
+export interface EmoticonsResponse {
+  _links: SelfLink;
+  emoticons: Emoticon[];
+}
+
+export interface ClipBroadcaster {
+  id: string;
+  name: string;
+  display_name: string;
+  channel_url: string;
+  logo: string;
+}
+
+export interface ClipCurator {
+  id: string;
+  name: string;
+  display_name: string;
+  channel_url: string;
+  logo: string;
+}
+
+export interface ClipVod {
+  id: string;
+  url: string;
+}
+
+export interface ClipThumbnails {
+  medium: string;
+  small: string;
+  tiny: string;
+}
+
+export interface Clip {
+  slug: string;
+  tracking_id: string;
+  url: string;
+  embed_url: string;
+  embed_html: string;
+  broadcaster: ClipBroadcaster;
+  curator: ClipCurator;
+  vod: ClipVod;
+  game: string;
+  language: string;
+  title: string;
+  views: integer;
+  duration: float;
+  created_at: string;
+  thumbnails: ClipThumbnails;
+}
+
+export interface TopClipsQuery extends PaginationQuery {
+  channel?: string;
+  game?: string;
+  language?: string[];
+  period?: Period;
+  trending?: boolean;
+}
+
+export interface ClipsResponse extends PaginationResponse {
+  clips: Clip[];
+}
+
+export interface FollowedQuery extends PaginationQuery {
+  trending?: boolean;
 }
 
 // import { RequestResponse } from "./request";

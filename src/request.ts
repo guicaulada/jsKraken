@@ -18,20 +18,22 @@ function newRequest(): XMLHttpRequest {
 
 function serialize(obj?: RequestQuery): string {
   if (!obj) return "";
-  const str = [];
-  for (const p in obj) {
-    if (Array.isArray(obj[p])) {
-      (obj[p] as RequestObject[]).forEach((e) => {
-        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(e));
-      });
+  const str: string[] = [];
+  Object.keys(obj).forEach((key) => {
+    if (Array.isArray(obj[key])) {
+      str.push(
+        encodeURIComponent(key) +
+          "=" +
+          encodeURIComponent((obj[key] as RequestObject[]).join(",")),
+      );
     } else {
       str.push(
-        encodeURIComponent(p) +
+        encodeURIComponent(key) +
           "=" +
-          encodeURIComponent(obj[p] as RequestObject),
+          encodeURIComponent(obj[key] as RequestObject),
       );
     }
-  }
+  });
   return "?" + str.join("&");
 }
 

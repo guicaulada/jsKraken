@@ -136,103 +136,91 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getChannelVideos(query, options: Options = {}) {
-    return execute({
+  function getChannelVideos(
+    channelId: string,
+    query: kraken.ChannelVideosQuery,
+    options: Options = {},
+  ): Promise<kraken.ChannelVideosResponse> {
+    return execute<kraken.ChannelVideosResponse>({
       options,
       method: "GET",
-      path: "/kraken/channels/${params[0]}/videos",
+      path: `/kraken/channels/${channelId}/videos`,
       query,
     });
   }
 
-  function startChannelCommercial(body, options: Options = {}) {
-    return execute({
+  function startChannelCommercial(
+    channelId: string,
+    body: kraken.ChannelCommercialBody,
+    options: Options = {},
+  ): Promise<kraken.ChannelCommercial> {
+    return execute<kraken.ChannelCommercial>({
       options,
       method: "POST",
-      path: "/kraken/channels/${params[0]}/commercial",
+      path: `/kraken/channels/${channelId}/commercial`,
       body,
     });
   }
 
-  function resetChannelStreamKey(options: Options = {}) {
-    return execute({
+  function resetChannelStreamKey(
+    channelId: string,
+    options: Options = {},
+  ): Promise<kraken.CurrentChannelResponse> {
+    return execute<kraken.CurrentChannelResponse>({
       options,
       method: "DELETE",
-      path: "/kraken/channels/${params[0]}/stream_key",
-    });
-  }
-
-  function getChannelCommunities(options: Options = {}) {
-    return execute({
-      options,
-      method: "GET",
-      path: "/kraken/channels/${params[0]}/communities",
-    });
-  }
-
-  function setChannelCommunities(body, options: Options = {}) {
-    return execute({
-      options,
-      method: "PUT",
-      path: "/kraken/channels/${params[0]}/communities",
-      body,
-    });
-  }
-
-  function deleteChannelCommunities(body, options: Options = {}) {
-    return execute({
-      options,
-      method: "PUT",
-      path: "/kraken/channels/${params[0]}/community",
-      body,
+      path: `/kraken/channels/${channelId}/stream_key`,
     });
   }
 
   // Chat
-  function getChannelBadges(options: Options = {}) {
-    return execute({
+  function getChannelBadges(
+    channelId: string,
+    options: Options = {},
+  ): Promise<kraken.ChannelBadges> {
+    return execute<kraken.ChannelBadges>({
       options,
       method: "GET",
-      path: "/kraken/chat/${params[0]}/badges",
+      path: `/kraken/chat/${channelId}/badges`,
     });
   }
 
-  function getChannelEmoticonsBySet(query, options: Options = {}) {
-    return execute({
+  function getSetEmoticons(
+    query: kraken.EmoticonsSetQuery,
+    options: Options = {},
+  ): Promise<kraken.EmoticonsSetResponse> {
+    return execute<kraken.EmoticonsSetResponse>({
       options,
       method: "GET",
-      path: "/kraken/chat/${params[0]}/emoticon_images",
+      path: "/kraken/chat/emoticon_images",
       query,
     });
   }
 
-  function getChannelEmoticons(options: Options = {}) {
-    return execute({
+  function getAllEmoticons(
+    options: Options = {},
+  ): Promise<kraken.EmoticonsResponse> {
+    return execute<kraken.EmoticonsResponse>({
       options,
       method: "GET",
-      path: "/kraken/chat/${params[0]}/emoticons",
-    });
-  }
-
-  function getChannelRooms(options: Options = {}) {
-    return execute({
-      options,
-      method: "GET",
-      path: "/kraken/chat/${params[0]}/rooms",
+      path: "/kraken/chat/emoticons",
     });
   }
 
   // Clips
-  function getClip(options: Options = {}) {
-    return execute({
+  function getClip(slug: string, options: Options = {}): Promise<kraken.Clip> {
+    return execute<kraken.Clip>({
       options,
       method: "GET",
-      path: "/kraken/clips/${params[0]}",
+      path: `/kraken/clips/${slug}`,
     });
   }
 
-  function getTopClips(query, options: Options = {}) {
-    return execute({
+  function getTopClips(
+    query?: kraken.TopClipsQuery,
+    options: Options = {},
+  ): Promise<kraken.ClipsResponse> {
+    return execute<kraken.ClipsResponse>({
       options,
       method: "GET",
       path: "/kraken/clips/top",
@@ -240,8 +228,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getFollowedClips(query, options: Options = {}) {
-    return execute({
+  function getFollowedClips(
+    query?: kraken.FollowedQuery,
+    options: Options = {},
+  ): Promise<kraken.ClipsResponse> {
+    return execute<kraken.ClipsResponse>({
       options,
       method: "GET",
       path: "/kraken/clips/followed",
@@ -644,15 +635,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     getChannelVideos,
     startChannelCommercial,
     resetChannelStreamKey,
-    getChannelCommunities,
-    setChannelCommunities,
-    deleteChannelCommunities,
 
     // Chat
     getChannelBadges,
-    getChannelEmoticonsBySet,
-    getChannelEmoticons,
-    getChannelRooms,
+    getSetEmoticons,
+    getAllEmoticons,
 
     // Clips
     getClip,
