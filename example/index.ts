@@ -1,9 +1,9 @@
 import jsKraken from "../src"; // "jskraken"
 
-const KRAKEN_CLIENT = process.env.KRAKEN_CLIENT;
-const KRAKEN_TOKEN = process.env.KRAKEN_TOKEN;
+const TWITCH_CLIENT = process.env.TWITCH_CLIENT;
+const TWITCH_TOKEN = process.env.TWITCH_TOKEN;
 
-const kapi = jsKraken(KRAKEN_CLIENT!, KRAKEN_TOKEN);
+const kapi = jsKraken(TWITCH_CLIENT!, TWITCH_TOKEN);
 
 kapi
   .getCurrentUser()

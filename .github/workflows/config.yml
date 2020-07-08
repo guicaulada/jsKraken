@@ -21,8 +21,8 @@ jobs:
           name: coverage
           path: coverage
     env:
-      KRAKEN_CLIENT: ${{ secrets.KRAKEN_CLIENT }}
-      KRAKEN_TOKEN: ${{ secrets.KRAKEN_TOKEN }}
+      TWITCH_CLIENT: ${{ secrets.TWITCH_CLIENT }}
+      TWITCH_TOKEN: ${{ secrets.TWITCH_TOKEN }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   quality:
