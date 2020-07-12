@@ -1,9 +1,11 @@
 import {
+  RequestArguments,
+  RequestData,
   RequestHeaders,
   RequestMessage,
   RequestObject,
-  RequestOptions,
   RequestQuery,
+  RequestResponse,
 } from "./types/request";
 
 function newRequest(): XMLHttpRequest {
@@ -37,9 +39,9 @@ function serialize(obj?: RequestQuery): string {
   return "?" + str.join("&");
 }
 
-function tryJSON<T>(json: string): RequestMessage | T {
+function tryJSON<T>(json: string): RequestMessage | RequestData<T> {
   try {
-    return JSON.parse(json) as T;
+    return { data: JSON.parse(json) as T };
   } catch {
     return { message: json };
   }
@@ -60,12 +62,12 @@ function getAllResponseHeaders(httpRequest: XMLHttpRequest): RequestHeaders {
   return allHeaders;
 }
 
-function response<T>(httpRequest: XMLHttpRequest): T {
+function response<T>(httpRequest: XMLHttpRequest): RequestResponse<T> {
   return {
     status: httpRequest.status,
     headers: getAllResponseHeaders(httpRequest),
     ...tryJSON<T>(httpRequest.responseText),
-  } as T;
+  } as RequestResponse<T>;
 }
 
 export default function request<T>({
@@ -74,7 +76,7 @@ export default function request<T>({
   body,
   query,
   headers,
-}: RequestOptions): Promise<T> {
+}: RequestArguments): Promise<RequestResponse<T>> {
   return new Promise((resolve, reject) => {
     const httpRequest = newRequest();
     httpRequest.open(method, url + serialize(query as RequestQuery), true);
@@ -85,9 +87,9 @@ export default function request<T>({
     httpRequest.onreadystatechange = (): void => {
       if (httpRequest.readyState == 4) {
         if (Number(httpRequest.status.toString()[0]) == 2) {
-          resolve(response(httpRequest));
+          resolve(response<T>(httpRequest));
         } else {
-          reject(response(httpRequest));
+          reject(response<T>(httpRequest));
         }
       }
     };

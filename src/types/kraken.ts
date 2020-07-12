@@ -34,7 +34,7 @@ export interface PaginationQuery {
   direction?: string;
 }
 
-export interface PaginationResponse {
+export interface Pagination {
   _cursor?: string;
   _total?: integer;
 }
@@ -68,17 +68,17 @@ export interface CheermoteData {
   tiers: CheermoteTier[];
 }
 
-export interface CheermoteResponse {
+export interface Cheermotes {
   actions: CheermoteData[];
 }
 
-export interface CurrentChannelResponse extends ChannelResponse {
+export interface CurrentChannel extends Channel {
   broadcaster_type: string;
   stream_key: string;
   email: string;
 }
 
-export interface ChannelResponse {
+export interface Channel {
   _id: integer;
   broadcaster_language: string;
   created_at: string;
@@ -121,7 +121,7 @@ export interface UserData {
   updated_at: string;
 }
 
-export interface ChannelEditorResponse {
+export interface ChannelEditors {
   users: UserData[];
 }
 
@@ -131,7 +131,7 @@ export interface FollowData {
   user: UserData;
 }
 
-export interface FollowsResponse extends PaginationResponse {
+export interface Follows extends Pagination {
   follows: FollowData[];
 }
 
@@ -147,7 +147,7 @@ export interface TeamData {
   updated_at: string;
 }
 
-export interface TeamsResponse {
+export interface Teams {
   teams: TeamData[];
 }
 
@@ -159,7 +159,7 @@ export interface SubscriptionData {
   user: UserData;
 }
 
-export interface SubscriptionsResponse extends PaginationResponse {
+export interface Subscriptions extends Pagination {
   subscriptions: SubscriptionData[];
 }
 
@@ -235,7 +235,7 @@ export interface ChannelVideo {
   views: integer;
 }
 
-export interface ChannelVideosResponse extends PaginationResponse {
+export interface ChannelVideos extends Pagination {
   videos: ChannelVideo[];
 }
 
@@ -275,7 +275,7 @@ export interface SetEmoticon {
   id: integer;
 }
 
-export interface EmoticonsSetResponse {
+export interface EmoticonsSet {
   emoticon_sets?: map<SetEmoticon[]>;
   emoticons?: SetEmoticon[];
 }
@@ -297,7 +297,7 @@ export interface SelfLink {
   self: string;
 }
 
-export interface EmoticonsResponse {
+export interface Emoticons {
   _links: SelfLink;
   emoticons: Emoticon[];
 }
@@ -355,12 +355,65 @@ export interface TopClipsQuery extends PaginationQuery {
   trending?: boolean;
 }
 
-export interface ClipsResponse extends PaginationResponse {
+export interface Clips extends Pagination {
   clips: Clip[];
 }
 
 export interface FollowedQuery extends PaginationQuery {
   trending?: boolean;
+}
+
+export interface CollectionOwner {
+  _id: string;
+  bio: string;
+  created_at: string;
+  display_name: string;
+  logo: string;
+  name: string;
+  type: string;
+  updated_at: string;
+}
+
+export interface CollectionThumbnails {
+  large: string;
+  medium: string;
+  small: string;
+  template: string;
+}
+
+export interface CollectionMetadata {
+  _id: string;
+  created_at: string;
+  items_count: integer;
+  owner: CollectionOwner;
+  thumbnails: CollectionThumbnails;
+  title: string;
+  total_duration: integer;
+  updated_at: string;
+  views: integer;
+}
+
+export interface CollectionQuery {
+  include_all_items?: boolean;
+}
+
+export interface CollectionItem {
+  _id: string;
+  description_html: string;
+  duration: integer;
+  game: string;
+  item_id: string;
+  item_type: string;
+  owner: CollectionOwner;
+  published_at: string;
+  thumbnails: CollectionThumbnails;
+  title: string;
+  views: integer;
+}
+
+export interface Collection {
+  _id: string;
+  items: CollectionItem[];
 }
 
 // import { RequestResponse } from "./request";

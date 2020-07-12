@@ -1,7 +1,7 @@
 import request from "./request";
 import { ExecuteArguments, JSKraken, Options } from "./types/jskraken";
 import * as kraken from "./types/kraken";
-import { RequestHeaders } from "./types/request";
+import { RequestHeaders, RequestResponse } from "./types/request";
 
 export default function jsKraken(clientId: string, token?: string): JSKraken {
   const url = "https://api.twitch.tv";
@@ -15,7 +15,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     headers["Authorization"] = `OAuth ${token}`;
   }
 
-  function execute<T>(args: ExecuteArguments): Promise<T> {
+  function execute<T>(args: ExecuteArguments): Promise<RequestResponse<T>> {
     return request<T>({
       headers: {
         ...headers,
@@ -32,8 +32,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   function getCheermotes(
     query?: kraken.CheermotesQuery,
     options: Options = {},
-  ): Promise<kraken.CheermoteResponse> {
-    return execute<kraken.CheermoteResponse>({
+  ): Promise<RequestResponse<kraken.Cheermotes>> {
+    return execute<kraken.Cheermotes>({
       options,
       method: "GET",
       path: "/v5/bits/actions",
@@ -44,8 +44,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   // Channels
   function getCurrentChannel(
     options: Options = {},
-  ): Promise<kraken.CurrentChannelResponse> {
-    return execute<kraken.CurrentChannelResponse>({
+  ): Promise<RequestResponse<kraken.CurrentChannel>> {
+    return execute<kraken.CurrentChannel>({
       options,
       method: "GET",
       path: "/kraken/channel",
@@ -55,8 +55,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   function getChannel(
     channelId: string,
     options: Options = {},
-  ): Promise<kraken.ChannelResponse> {
-    return execute<kraken.ChannelResponse>({
+  ): Promise<RequestResponse<kraken.Channel>> {
+    return execute<kraken.Channel>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}`,
@@ -67,8 +67,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     channelId: string,
     body: kraken.UpdateChannelBody,
     options: Options = {},
-  ): Promise<kraken.ChannelResponse> {
-    return execute<kraken.ChannelResponse>({
+  ): Promise<RequestResponse<kraken.Channel>> {
+    return execute<kraken.Channel>({
       options,
       method: "PUT",
       path: `/kraken/channels/${channelId}`,
@@ -79,8 +79,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   function getChannelEditors(
     channelId: string,
     options: Options = {},
-  ): Promise<kraken.ChannelEditorResponse> {
-    return execute<kraken.ChannelEditorResponse>({
+  ): Promise<RequestResponse<kraken.ChannelEditors>> {
+    return execute<kraken.ChannelEditors>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}/editors`,
@@ -91,8 +91,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     channelId: string,
     query?: kraken.PaginationQuery,
     options: Options = {},
-  ): Promise<kraken.FollowsResponse> {
-    return execute<kraken.FollowsResponse>({
+  ): Promise<RequestResponse<kraken.Follows>> {
+    return execute<kraken.Follows>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}/follows`,
@@ -103,8 +103,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   function getChannelTeams(
     channelId: string,
     options: Options = {},
-  ): Promise<kraken.TeamsResponse> {
-    return execute<kraken.TeamsResponse>({
+  ): Promise<RequestResponse<kraken.Teams>> {
+    return execute<kraken.Teams>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}/teams`,
@@ -115,8 +115,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     channelId: string,
     query?: kraken.PaginationQuery,
     options: Options = {},
-  ): Promise<kraken.SubscriptionsResponse> {
-    return execute<kraken.SubscriptionsResponse>({
+  ): Promise<RequestResponse<kraken.Subscriptions>> {
+    return execute<kraken.Subscriptions>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}/subscriptions`,
@@ -128,7 +128,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     channelId: string,
     userId: string,
     options: Options = {},
-  ): Promise<kraken.SubscriptionData> {
+  ): Promise<RequestResponse<kraken.SubscriptionData>> {
     return execute<kraken.SubscriptionData>({
       options,
       method: "GET",
@@ -140,8 +140,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     channelId: string,
     query: kraken.ChannelVideosQuery,
     options: Options = {},
-  ): Promise<kraken.ChannelVideosResponse> {
-    return execute<kraken.ChannelVideosResponse>({
+  ): Promise<RequestResponse<kraken.ChannelVideos>> {
+    return execute<kraken.ChannelVideos>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}/videos`,
@@ -153,7 +153,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     channelId: string,
     body: kraken.ChannelCommercialBody,
     options: Options = {},
-  ): Promise<kraken.ChannelCommercial> {
+  ): Promise<RequestResponse<kraken.ChannelCommercial>> {
     return execute<kraken.ChannelCommercial>({
       options,
       method: "POST",
@@ -165,8 +165,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   function resetChannelStreamKey(
     channelId: string,
     options: Options = {},
-  ): Promise<kraken.CurrentChannelResponse> {
-    return execute<kraken.CurrentChannelResponse>({
+  ): Promise<RequestResponse<kraken.CurrentChannel>> {
+    return execute<kraken.CurrentChannel>({
       options,
       method: "DELETE",
       path: `/kraken/channels/${channelId}/stream_key`,
@@ -177,7 +177,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   function getChannelBadges(
     channelId: string,
     options: Options = {},
-  ): Promise<kraken.ChannelBadges> {
+  ): Promise<RequestResponse<kraken.ChannelBadges>> {
     return execute<kraken.ChannelBadges>({
       options,
       method: "GET",
@@ -188,8 +188,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   function getSetEmoticons(
     query: kraken.EmoticonsSetQuery,
     options: Options = {},
-  ): Promise<kraken.EmoticonsSetResponse> {
-    return execute<kraken.EmoticonsSetResponse>({
+  ): Promise<RequestResponse<kraken.EmoticonsSet>> {
+    return execute<kraken.EmoticonsSet>({
       options,
       method: "GET",
       path: "/kraken/chat/emoticon_images",
@@ -199,8 +199,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
 
   function getAllEmoticons(
     options: Options = {},
-  ): Promise<kraken.EmoticonsResponse> {
-    return execute<kraken.EmoticonsResponse>({
+  ): Promise<RequestResponse<kraken.Emoticons>> {
+    return execute<kraken.Emoticons>({
       options,
       method: "GET",
       path: "/kraken/chat/emoticons",
@@ -208,7 +208,10 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   // Clips
-  function getClip(slug: string, options: Options = {}): Promise<kraken.Clip> {
+  function getClip(
+    slug: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Clip>> {
     return execute<kraken.Clip>({
       options,
       method: "GET",
@@ -219,8 +222,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   function getTopClips(
     query?: kraken.TopClipsQuery,
     options: Options = {},
-  ): Promise<kraken.ClipsResponse> {
-    return execute<kraken.ClipsResponse>({
+  ): Promise<RequestResponse<kraken.Clips>> {
+    return execute<kraken.Clips>({
       options,
       method: "GET",
       path: "/kraken/clips/top",
@@ -231,8 +234,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   function getFollowedClips(
     query?: kraken.FollowedQuery,
     options: Options = {},
-  ): Promise<kraken.ClipsResponse> {
-    return execute<kraken.ClipsResponse>({
+  ): Promise<RequestResponse<kraken.Clips>> {
+    return execute<kraken.Clips>({
       options,
       method: "GET",
       path: "/kraken/clips/followed",
@@ -241,19 +244,26 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   // Collection
-  function getCollectionMetadata(options: Options = {}) {
-    return execute({
+  function getCollectionMetadata(
+    collectionId: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.CollectionMetadata>> {
+    return execute<kraken.CollectionMetadata>({
       options,
       method: "GET",
-      path: "/kraken/collections/${params[0]}",
+      path: `/kraken/collections/${collectionId}`,
     });
   }
 
-  function getCollection(query, options: Options = {}) {
-    return execute({
+  function getCollection(
+    collectionId: string,
+    query?: kraken.CollectionQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Collection>> {
+    return execute<kraken.Collection>({
       options,
       method: "GET",
-      path: "/kraken/collections/${params[0]}/items",
+      path: `/kraken/collections/${collectionId}/items`,
       query,
     });
   }
