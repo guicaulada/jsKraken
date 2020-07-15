@@ -128,8 +128,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     channelId: string,
     userId: string,
     options: Options = {},
-  ): Promise<RequestResponse<kraken.SubscriptionData>> {
-    return execute<kraken.SubscriptionData>({
+  ): Promise<RequestResponse<kraken.Subscription>> {
+    return execute<kraken.Subscription>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}/subscriptions/${userId}`,
@@ -138,10 +138,10 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
 
   function getChannelVideos(
     channelId: string,
-    query: kraken.ChannelVideosQuery,
+    query: kraken.VideosQuery,
     options: Options = {},
-  ): Promise<RequestResponse<kraken.ChannelVideos>> {
-    return execute<kraken.ChannelVideos>({
+  ): Promise<RequestResponse<kraken.Videos>> {
+    return execute<kraken.Videos>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}/videos`,
@@ -268,79 +268,111 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getChannelCollections(query, options: Options = {}) {
-    return execute({
+  function getChannelCollections(
+    channelId: string,
+    query?: kraken.ChannelCollectionQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.ChannelCollections>> {
+    return execute<kraken.ChannelCollections>({
       options,
       method: "GET",
-      path: "/kraken/channels/${params[0]}/collections",
+      path: `/kraken/channels/${channelId}/collections`,
       query,
     });
   }
 
-  function createChannelCollection(body, options: Options = {}) {
-    return execute({
+  function createChannelCollection(
+    channelId: string,
+    body: kraken.CollectionBody,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.ChannelCollections>> {
+    return execute<kraken.ChannelCollections>({
       options,
       method: "POST",
-      path: "/kraken/channels/${params[0]}/collections",
+      path: `/kraken/channels/${channelId}/collections`,
       body,
     });
   }
 
-  function updateCollection(body, options: Options = {}) {
+  function updateCollection(
+    collectionId: string,
+    body: kraken.CollectionBody,
+    options: Options = {},
+  ): Promise<RequestResponse> {
     return execute({
       options,
       method: "PUT",
-      path: "/kraken/collections/${params[0]}",
+      path: `/kraken/collections/${collectionId}`,
       body,
     });
   }
 
-  function createCollectionThumbnail(body, options: Options = {}) {
+  function createCollectionThumbnail(
+    collectionId: string,
+    body: kraken.CollectionThumbnailBody,
+    options: Options = {},
+  ) {
     return execute({
       options,
       method: "PUT",
-      path: "/kraken/collections/${params[0]}/thumbnail",
+      path: `/kraken/collections/${collectionId}/thumbnail`,
       body,
     });
   }
 
-  function deleteCollection(options: Options = {}) {
+  function deleteCollection(collectionId: string, options: Options = {}) {
     return execute({
       options,
       method: "DELETE",
-      path: "/kraken/collections/${params[0]}",
+      path: `/kraken/collections/${collectionId}`,
     });
   }
 
-  function addCollectionItem(body, options: Options = {}) {
-    return execute({
+  function addCollectionItem(
+    collectionId: string,
+    body: kraken.CollectionItemBody,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.CollectionItem>> {
+    return execute<kraken.CollectionItem>({
       options,
       method: "POST",
-      path: "/kraken/collections/${params[0]}/items",
+      path: `/kraken/collections/${collectionId}/items`,
       body,
     });
   }
 
-  function deleteCollectionItem(options: Options = {}) {
+  function deleteCollectionItem(
+    collectionId: string,
+    itemId: string,
+    options: Options = {},
+  ): Promise<RequestResponse> {
     return execute({
       options,
       method: "DELETE",
-      path: "/kraken/collections/${params[0]}/items/${params[1]}",
+      path: `/kraken/collections/${collectionId}/items/${itemId}`,
     });
   }
 
-  function moveCollectionItem(body, options: Options = {}) {
+  function moveCollectionItem(
+    collectionId: string,
+    itemId: string,
+    body: kraken.MoveCollectionItemBody,
+    options: Options = {},
+  ): Promise<RequestResponse> {
     return execute({
       options,
       method: "PUT",
-      path: "/kraken/collections/${params[0]}/items/${params[1]}",
+      path: `/kraken/collections/${collectionId}/items/${itemId}`,
       body,
     });
   }
 
   // Games
-  function getTopGames(query, options: Options = {}) {
-    return execute({
+  function getTopGames(
+    query: kraken.PaginationQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.TopGames>> {
+    return execute<kraken.TopGames>({
       options,
       method: "GET",
       path: "/kraken/games/top",
@@ -349,8 +381,10 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   // Ingest
-  function getMyChannel(options: Options = {}) {
-    return execute({
+  function getIngestServers(
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.IngestServers>> {
+    return execute<kraken.IngestServers>({
       options,
       method: "GET",
       path: "/kraken/ingests",
@@ -358,8 +392,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   // Search
-  function searchChannels(query, options: Options = {}) {
-    return execute({
+  function searchChannels(
+    query: kraken.SearchQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Channels>> {
+    return execute<kraken.Channels>({
       options,
       method: "GET",
       path: "/kraken/search/channels",
@@ -367,8 +404,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function searchGames(query, options: Options = {}) {
-    return execute({
+  function searchGames(
+    query: kraken.SearchQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Games>> {
+    return execute<kraken.Games>({
       options,
       method: "GET",
       path: "/kraken/search/games",
@@ -376,8 +416,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function searchStreams(query, options: Options = {}) {
-    return execute({
+  function searchStreams(
+    query: kraken.StreamSearchQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Streams>> {
+    return execute<kraken.Streams>({
       options,
       method: "GET",
       path: "/kraken/search/streams",
@@ -386,16 +429,22 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   // Streams
-  function getStream(options: Options = {}) {
-    return execute({
+  function getStream(
+    channelId: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.ChannelStream>> {
+    return execute<kraken.ChannelStream>({
       options,
       method: "GET",
-      path: "/kraken/streams/${params[0]}",
+      path: `/kraken/streams/${channelId}`,
     });
   }
 
-  function getStreams(query, options: Options = {}) {
-    return execute({
+  function getStreams(
+    query?: kraken.LiveStreamQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Streams>> {
+    return execute<kraken.Streams>({
       options,
       method: "GET",
       path: "/kraken/streams",
@@ -403,8 +452,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getStreamsSummary(query, options: Options = {}) {
-    return execute({
+  function getStreamsSummary(
+    query?: kraken.StreamsSummaryQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.StreamsSummary>> {
+    return execute<kraken.StreamsSummary>({
       options,
       method: "GET",
       path: "/kraken/streams/summary",
@@ -672,7 +724,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     getTopGames,
 
     // Ingest
-    getMyChannel,
+    getIngestServers,
 
     // Search
     searchChannels,

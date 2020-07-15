@@ -21,6 +21,8 @@ export type CommercialLength = 30 | 60 | 90 | 120 | 150 | 180;
 
 export type Period = "all" | "day" | "week" | "month";
 
+export type StreamType = "live" | "playlist" | "all";
+
 export enum SubscriptionTier {
   "Tier 1" = "1000",
   "Tier 2" = "2000",
@@ -60,7 +62,7 @@ export interface CheermoteTier {
   min_bits: integer;
 }
 
-export interface CheermoteData {
+export interface Cheermote {
   backgrounds: CheermoteBackground[];
   prefix: string;
   scales: CheermoteScale[];
@@ -69,7 +71,7 @@ export interface CheermoteData {
 }
 
 export interface Cheermotes {
-  actions: CheermoteData[];
+  actions: Cheermote[];
 }
 
 export interface CurrentChannel extends Channel {
@@ -110,7 +112,7 @@ export interface UpdateChannelBody {
   channel: UpdateChannelData;
 }
 
-export interface UserData {
+export interface User {
   _id: integer;
   bio: string;
   created_at: string;
@@ -122,20 +124,20 @@ export interface UserData {
 }
 
 export interface ChannelEditors {
-  users: UserData[];
+  users: User[];
 }
 
-export interface FollowData {
+export interface Follow {
   created_at: string;
   notifications: boolean;
-  user: UserData;
+  user: User;
 }
 
 export interface Follows extends Pagination {
-  follows: FollowData[];
+  follows: Follow[];
 }
 
-export interface TeamData {
+export interface Team {
   _id: integer;
   background: string;
   banner: string;
@@ -148,34 +150,34 @@ export interface TeamData {
 }
 
 export interface Teams {
-  teams: TeamData[];
+  teams: Team[];
 }
 
-export interface SubscriptionData {
+export interface Subscription {
   _id: string;
   created_at: string;
   sub_plan: SubscriptionTier;
   sub_plan_name: string;
-  user: UserData;
+  user: User;
 }
 
 export interface Subscriptions extends Pagination {
-  subscriptions: SubscriptionData[];
+  subscriptions: Subscription[];
 }
 
-export interface ChannelVideosQuery extends PaginationQuery {
+export interface VideosQuery extends PaginationQuery {
   broadcast_type?: BroadcastType[];
-  language?: string[];
+  language?: repeatable;
   sort?: VideoSort;
 }
 
-export interface ChannelVideoChannel {
+export interface VideoChannel {
   _id: string;
   display_name: string;
   name: string;
 }
 
-export interface ChannelVideoFPS {
+export interface VideoFPS {
   chunked: float;
   high: float;
   low: float;
@@ -183,14 +185,7 @@ export interface ChannelVideoFPS {
   mobile: float;
 }
 
-export interface ChannelVideoPreview {
-  large: string;
-  medium: string;
-  small: string;
-  template: string;
-}
-
-export interface ChannelVideoResolutions {
+export interface VideoResolutions {
   chunked: string;
   high: string;
   low: string;
@@ -198,36 +193,36 @@ export interface ChannelVideoResolutions {
   mobile: string;
 }
 
-export interface ChannelVideoThumbnailData {
+export interface VideoThumbnailData {
   type: string;
   url: string;
 }
 
-export interface ChannelVideoThumbnails {
-  large: ChannelVideoThumbnailData[];
-  medium: ChannelVideoThumbnailData[];
-  small: ChannelVideoThumbnailData[];
-  template: ChannelVideoThumbnailData[];
+export interface VideoThumbnails {
+  large: VideoThumbnailData[];
+  medium: VideoThumbnailData[];
+  small: VideoThumbnailData[];
+  template: VideoThumbnailData[];
 }
 
-export interface ChannelVideo {
+export interface Video {
   _id: string;
   broadcast_id: integer;
   broadcast_type: string;
-  channel: ChannelVideoChannel;
+  channel: VideoChannel;
   created_at: string;
   description: string;
   description_html: string;
-  fps: ChannelVideoFPS;
+  fps: VideoFPS;
   game: string;
   language: string;
   length: integer;
-  preview: ChannelVideoPreview;
+  preview: Thumbnails;
   published_at: string;
-  resolutions: ChannelVideoResolutions;
+  resolutions: VideoResolutions;
   status: string;
   tag_list: string;
-  thumbnails: ChannelVideoThumbnails;
+  thumbnails: VideoThumbnails;
   title: string;
   url: string;
   viewable: string;
@@ -235,8 +230,8 @@ export interface ChannelVideo {
   views: integer;
 }
 
-export interface ChannelVideos extends Pagination {
-  videos: ChannelVideo[];
+export interface Videos extends Pagination {
+  videos: Video[];
 }
 
 export interface ChannelCommercialBody {
@@ -350,7 +345,7 @@ export interface Clip {
 export interface TopClipsQuery extends PaginationQuery {
   channel?: string;
   game?: string;
-  language?: string[];
+  language?: repeatable;
   period?: Period;
   trending?: boolean;
 }
@@ -374,7 +369,7 @@ export interface CollectionOwner {
   updated_at: string;
 }
 
-export interface CollectionThumbnails {
+export interface Thumbnails {
   large: string;
   medium: string;
   small: string;
@@ -386,7 +381,7 @@ export interface CollectionMetadata {
   created_at: string;
   items_count: integer;
   owner: CollectionOwner;
-  thumbnails: CollectionThumbnails;
+  thumbnails: Thumbnails;
   title: string;
   total_duration: integer;
   updated_at: string;
@@ -406,7 +401,7 @@ export interface CollectionItem {
   item_type: string;
   owner: CollectionOwner;
   published_at: string;
-  thumbnails: CollectionThumbnails;
+  thumbnails: Thumbnails;
   title: string;
   views: integer;
 }
@@ -414,6 +409,117 @@ export interface CollectionItem {
 export interface Collection {
   _id: string;
   items: CollectionItem[];
+}
+
+export interface ChannelCollectionQuery extends PaginationQuery {
+  containing_item: string;
+}
+
+export interface ChannelCollections extends Pagination {
+  collections: CollectionMetadata[];
+}
+
+export interface CollectionBody {
+  title: string;
+}
+
+export interface CollectionThumbnailBody {
+  item_id: string;
+}
+
+export interface CollectionItemBody {
+  id: string;
+  type: "video";
+}
+
+export interface MoveCollectionItemBody {
+  position: integer;
+}
+
+export interface Game {
+  _id: integer;
+  box: Thumbnails;
+  giantbomb_id: integer;
+  logo: Thumbnails;
+  name: string;
+}
+
+export interface TopGame {
+  channels: integer;
+  viewers: integer;
+  game: Game;
+}
+
+export interface TopGames extends Pagination {
+  top: TopGame[];
+}
+
+export interface IngestServer {
+  _id: integer;
+  availability: float;
+  default: boolean;
+  name: string;
+  url_template: string;
+}
+
+export interface IngestServers {
+  ingests: IngestServer[];
+}
+
+export interface SearchQuery extends PaginationQuery {
+  query: string;
+}
+
+export interface Channels extends Pagination {
+  channels: Channel[];
+}
+
+export interface Games extends Pagination {
+  games: Game[];
+}
+
+export interface StreamSearchQuery extends SearchQuery {
+  hls?: boolean;
+}
+
+export interface Stream {
+  _id: integer;
+  average_fps: float;
+  channel: Channel;
+  created_at: string;
+  delay: float;
+  game: string;
+  is_playlist: boolean;
+  preview: Thumbnails;
+  video_height: integer;
+  viewers: integer;
+}
+
+export interface Streams extends Pagination {
+  streams: Stream[];
+}
+
+export interface ChannelStreamQuery {
+  stream_type: StreamType;
+}
+
+export interface ChannelStream {
+  stream?: Stream;
+}
+
+export interface LiveStreamQuery extends Pagination, ChannelStreamQuery {
+  channel: repeatable;
+  game: string;
+  language: string;
+}
+
+export interface StreamsSummaryQuery {
+  game?: repeatable;
+}
+
+export interface StreamsSummary {
+  channels: integer;
+  viewers: integer;
 }
 
 // import { RequestResponse } from "./request";
