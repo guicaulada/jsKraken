@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Sighmir/jsKraken#readme",
   "scripts": {
     "start": "node dist/index.js",
-    "start:example": "ts-node --no-warnings example/index.ts",
+    "start:example": "ts-node example/index.ts",
     "start:dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
     "test": "jest --coverage",
     "test:dev": "jest --coverage --watchAll",
