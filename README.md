@@ -50,9 +50,9 @@ const kapi = jsKraken(TWITCH_CLIENT!, TWITCH_TOKEN);
 
 kapi
   .getCurrentUser()
-  .then((users) => {
+  .then((user) => {
     kapi
-      .getChannelRooms()
+      .getUserFollows(user.data!._id.toString())
       .then((data) => {
         console.log(data);
       })
