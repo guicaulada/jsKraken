@@ -91,8 +91,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     channelId: string,
     query?: kraken.PaginationQuery,
     options: Options = {},
-  ): Promise<RequestResponse<kraken.Follows>> {
-    return execute<kraken.Follows>({
+  ): Promise<RequestResponse<kraken.ChannelFollows>> {
+    return execute<kraken.ChannelFollows>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}/follows`,
@@ -115,8 +115,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     channelId: string,
     query?: kraken.PaginationQuery,
     options: Options = {},
-  ): Promise<RequestResponse<kraken.Subscriptions>> {
-    return execute<kraken.Subscriptions>({
+  ): Promise<RequestResponse<kraken.ChannelSubscriptions>> {
+    return execute<kraken.ChannelSubscriptions>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}/subscriptions`,
@@ -128,8 +128,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     channelId: string,
     userId: string,
     options: Options = {},
-  ): Promise<RequestResponse<kraken.Subscription>> {
-    return execute<kraken.Subscription>({
+  ): Promise<RequestResponse<kraken.ChannelSubscription>> {
+    return execute<kraken.ChannelSubscription>({
       options,
       method: "GET",
       path: `/kraken/channels/${channelId}/subscriptions/${userId}`,
@@ -138,7 +138,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
 
   function getChannelVideos(
     channelId: string,
-    query: kraken.VideosQuery,
+    query?: kraken.VideosQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.Videos>> {
     return execute<kraken.Videos>({
@@ -186,7 +186,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getSetEmoticons(
-    query: kraken.EmoticonsSetQuery,
+    query?: kraken.EmoticonsSetQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.EmoticonsSet>> {
     return execute<kraken.EmoticonsSet>({
@@ -320,7 +320,10 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function deleteCollection(collectionId: string, options: Options = {}) {
+  function deleteCollection(
+    collectionId: string,
+    options: Options = {},
+  ): Promise<RequestResponse> {
     return execute({
       options,
       method: "DELETE",
@@ -431,12 +434,14 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   // Streams
   function getStream(
     channelId: string,
+    query?: kraken.StreamQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.ChannelStream>> {
     return execute<kraken.ChannelStream>({
       options,
       method: "GET",
       path: `/kraken/streams/${channelId}`,
+      query,
     });
   }
 
@@ -464,8 +469,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getFeaturedStreams(query, options: Options = {}) {
-    return execute({
+  function getFeaturedStreams(
+    query?: kraken.PaginationQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.FeaturedStreams>> {
+    return execute<kraken.FeaturedStreams>({
       options,
       method: "GET",
       path: "/kraken/streams/featured",
@@ -473,8 +481,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getFollowedStreams(query, options: Options = {}) {
-    return execute({
+  function getFollowedStreams(
+    query?: kraken.FollowedStreamQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Streams>> {
+    return execute<kraken.Streams>({
       options,
       method: "GET",
       path: "/kraken/streams/followed",
@@ -483,8 +494,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   // Teams
-  function getTeams(query, options: Options = {}) {
-    return execute({
+  function getTeams(
+    query?: kraken.PaginationQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Teams>> {
+    return execute<kraken.Teams>({
       options,
       method: "GET",
       path: "/kraken/teams",
@@ -492,33 +506,44 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getTeam(options: Options = {}) {
-    return execute({
+  function getTeam(
+    teamName: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Team>> {
+    return execute<kraken.Team>({
       options,
       method: "GET",
-      path: "/kraken/teams/${params[0]}",
+      path: `/kraken/teams/${teamName}`,
     });
   }
 
   // User
-  function getCurrentUser(options: Options = {}) {
-    return execute({
+  function getCurrentUser(
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.CurrentUser>> {
+    return execute<kraken.CurrentUser>({
       options,
       method: "GET",
       path: "/kraken/user",
     });
   }
 
-  function getUserById(options: Options = {}) {
-    return execute({
+  function getUserById(
+    userId: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.User>> {
+    return execute<kraken.User>({
       options,
       method: "GET",
-      path: "/kraken/users/${params[0]}",
+      path: `/kraken/users/${userId}`,
     });
   }
 
-  function getUser(query, options: Options = {}) {
-    return execute({
+  function getUser(
+    query: kraken.UserQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Users>> {
+    return execute<kraken.Users>({
       options,
       method: "GET",
       path: "/kraken/users",
@@ -526,24 +551,34 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getUserEmotes(options: Options = {}) {
-    return execute({
+  function getUserEmotes(
+    userId: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.EmoticonsSet>> {
+    return execute<kraken.EmoticonsSet>({
       options,
       method: "GET",
-      path: "/kraken/users/${params[0]}/emotes",
+      path: `/kraken/users/${userId}/emotes`,
     });
   }
 
-  function checkUserSubsctiption(options: Options = {}) {
-    return execute({
+  function checkUserSubsctiption(
+    userId: string,
+    channelId: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.UserSubscription>> {
+    return execute<kraken.UserSubscription>({
       options,
       method: "GET",
-      path: "/kraken/users/${params[0]}/subscriptions/${params[1]}",
+      path: `/kraken/users/${userId}/subscriptions/${channelId}`,
     });
   }
 
-  function getUserFollows(query, options: Options = {}) {
-    return execute({
+  function getUserFollows(
+    query?: kraken.UserFollowsQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.UserFollows>> {
+    return execute<kraken.UserFollows>({
       options,
       method: "GET",
       path: "/kraken/users/${params[0]}/follows/channels",
@@ -551,65 +586,96 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function checkUserFollow(options: Options = {}) {
-    return execute({
+  function checkUserFollow(
+    userId: string,
+    channelId: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.UserFollow>> {
+    return execute<kraken.UserFollow>({
       options,
       method: "GET",
-      path: "/kraken/users/${params[0]}/follows/channels/${params[1]}",
+      path: `/kraken/users/${userId}/follows/channels/${channelId}`,
     });
   }
 
-  function userFollowChannel(body, options: Options = {}) {
-    return execute({
+  function userFollowChannel(
+    userId: string,
+    channelId: string,
+    body?: kraken.FollowChannelBody,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.UserFollow>> {
+    return execute<kraken.UserFollow>({
       options,
       method: "PUT",
-      path: "/kraken/users/${params[0]}/follows/channels/${params[1]}",
+      path: `/kraken/users/${userId}/follows/channels/${channelId}`,
       body,
     });
   }
 
-  function userUnfollowChannel(options: Options = {}) {
+  function userUnfollowChannel(
+    userId: string,
+    channelId: string,
+    options: Options = {},
+  ): Promise<RequestResponse> {
     return execute({
       options,
       method: "DELETE",
-      path: "/kraken/users/${params[0]}/follows/channels/${params[1]}",
+      path: `/kraken/users/${userId}/follows/channels/${channelId}`,
     });
   }
 
-  function getUserBlocks(query, options: Options = {}) {
+  function getUserBlocks(
+    userId: string,
+    query?: kraken.PaginationQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.UserBlocks>> {
     return execute({
       options,
       method: "GET",
-      path: "/kraken/users/${params[0]}/blocks",
+      path: `/kraken/users/${userId}/blocks`,
       query,
     });
   }
 
-  function userBlockUser(options: Options = {}) {
+  function userBlockUser(
+    userId: string,
+    blockId: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.UserBlock>> {
     return execute({
       options,
       method: "PUT",
-      path: "/kraken/users/${params[0]}/blocks/${params[1]}",
+      path: `/kraken/users/${userId}/blocks/${blockId}`,
     });
   }
 
-  function userUnlockUser(options: Options = {}) {
+  function userUnlockUser(
+    userId: string,
+    blockId: string,
+    options: Options = {},
+  ): Promise<RequestResponse> {
     return execute({
       options,
       method: "DELETE",
-      path: "/kraken/users/${params[0]}/blocks/${params[1]}",
+      path: `/kraken/users/${userId}/blocks/${blockId}`,
     });
   }
 
-  function createConnectionToVHS(options: Options = {}) {
+  function createConnectionToVHS(
+    body: kraken.VHS,
+    options: Options = {},
+  ): Promise<RequestResponse> {
     return execute({
       options,
       method: "PUT",
       path: "/kraken/user/vhs",
+      body,
     });
   }
 
-  function checkConnectionToVHS(options: Options = {}) {
+  function checkConnectionToVHS(
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.VHS>> {
     return execute({
       options,
       method: "GET",
@@ -617,7 +683,9 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function deleteConnectionToVHS(options: Options = {}) {
+  function deleteConnectionToVHS(
+    options: Options = {},
+  ): Promise<RequestResponse> {
     return execute({
       options,
       method: "DELETE",
@@ -626,16 +694,22 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   // Videos
-  function getVideo(options: Options = {}) {
-    return execute({
+  function getVideo(
+    videoId: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Video>> {
+    return execute<kraken.Video>({
       options,
       method: "GET",
-      path: "/kraken/videos/${params[0]}",
+      path: `/kraken/videos/${videoId}`,
     });
   }
 
-  function getTopVideos(query, options: Options = {}) {
-    return execute({
+  function getTopVideos(
+    query?: kraken.TopVideosQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Vods>> {
+    return execute<kraken.Vods>({
       options,
       method: "GET",
       path: "/kraken/videos/top",
@@ -643,8 +717,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getFollowedVideos(query, options: Options = {}) {
-    return execute({
+  function getFollowedVideos(
+    query?: kraken.VideosQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Videos>> {
+    return execute<kraken.Videos>({
       options,
       method: "GET",
       path: "/kraken/videos/followed",
@@ -652,8 +729,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function createVideo(query, options: Options = {}) {
-    return execute({
+  function createVideo(
+    query: kraken.CreateVideoQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.CreatedVideo>> {
+    return execute<kraken.CreatedVideo>({
       options,
       method: "POST",
       path: "/kraken/videos",
@@ -661,20 +741,66 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function updateVideo(query, options: Options = {}) {
+  function uploadVideoPart(
+    videoId: string,
+    query: kraken.UploadVideoPartQuery,
+    body: Blob,
+    options: Options = {},
+  ) {
+    if (!options.url) {
+      options.url = "https://uploads.twitch.tv";
+    }
+    if (!options.headers) {
+      options.headers = {
+        "Content-Length": body.size.toString(),
+      };
+    }
     return execute({
       options,
       method: "PUT",
-      path: "/kraken/videos/${params[0]}",
+      path: `/upload/${videoId}`,
+      query,
+      body,
+    });
+  }
+
+  function completeVideoUpload(
+    videoId: string,
+    query: kraken.UploadVideoQuery,
+    options: Options = {},
+  ) {
+    if (!options.url) {
+      options.url = "https://uploads.twitch.tv";
+    }
+    return execute({
+      options,
+      method: "PUT",
+      path: `/upload/${videoId}/complete`,
       query,
     });
   }
 
-  function deleteVideo(options: Options = {}) {
-    return execute({
+  function updateVideo(
+    videoId: string,
+    query?: kraken.UpdateVideoQuery,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.Video>> {
+    return execute<kraken.Video>({
+      options,
+      method: "POST",
+      path: `/kraken/videos/${videoId}`,
+      query,
+    });
+  }
+
+  function deleteVideo(
+    videoId: string,
+    options: Options = {},
+  ): Promise<RequestResponse<kraken.DeletedVideo>> {
+    return execute<kraken.DeletedVideo>({
       options,
       method: "DELETE",
-      path: "/kraken/videos/${params[0]}",
+      path: `/kraken/videos/${videoId}`,
     });
   }
 
@@ -764,6 +890,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     getTopVideos,
     getFollowedVideos,
     createVideo,
+    uploadVideoPart,
+    completeVideoUpload,
     updateVideo,
     deleteVideo,
   };
