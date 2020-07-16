@@ -6,7 +6,7 @@ describe("request", () => {
   it("Calls request function in node environment with all parameters and returns successful request", async () => {
     process.env.APP_ENV = "node";
     requestMock.status = 200;
-    requestMock.responseText = '{ "data": [] }';
+    requestMock.responseText = "{}";
     const result = await request({
       method: "GET",
       url: "url",
@@ -16,13 +16,13 @@ describe("request", () => {
     });
     expect(requestMock.open).toBeCalledWith(
       "GET",
-      "url?query=xyz&array=1&array=2",
+      "url?query=xyz&array=1%2C2",
       true,
     );
     expect(requestMock.setRequestHeader).toBeCalledWith("header", "value");
     expect(requestMock.send).toBeCalledWith('{"data":[]}');
     expect(result).toEqual({
-      data: [],
+      data: {},
       headers: headersMock.object,
       status: 200,
     });
@@ -49,13 +49,13 @@ describe("request", () => {
   it("Calls request function in node environment with only required parameters and returns successful request", async () => {
     process.env.APP_ENV = "node";
     requestMock.status = 200;
-    requestMock.responseText = '{ "data": [] }';
+    requestMock.responseText = "{}";
     const result = await request({
       method: "GET",
       url: "url",
     });
     expect(result).toEqual({
-      data: [],
+      data: {},
       headers: headersMock.object,
       status: 200,
     });
@@ -64,13 +64,13 @@ describe("request", () => {
   it("Calls request function in a browser environment with only required parameters and returns successful request", async () => {
     process.env.APP_ENV = "browser";
     requestMock.status = 200;
-    requestMock.responseText = '{ "data": [] }';
+    requestMock.responseText = "{}";
     const result = await request({
       method: "GET",
       url: "url",
     });
     expect(result).toEqual({
-      data: [],
+      data: {},
       headers: headersMock.object,
       status: 200,
     });
