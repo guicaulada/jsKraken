@@ -7,6 +7,8 @@ export type map<T> = {
   [key: string]: T;
 };
 
+export type id = string | integer;
+
 export type RFC3339 = string;
 
 export type CheermoteBackground = "light" | "dark";
@@ -52,7 +54,7 @@ export interface Pagination {
 }
 
 export interface CheermotesQuery {
-  channel_id?: string;
+  channel_id?: id;
 }
 
 export interface CheermoteImagesByState {
