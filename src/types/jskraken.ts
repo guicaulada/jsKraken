@@ -18,203 +18,300 @@ export interface JSKraken {
   url: string;
   headers: RequestHeaders;
 
-  // Ads
-  startCommercial: (
-    body: kraken.StartCommercialBody,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.StartCommercialData[]>>;
-
-  // Analytics
-  getExtensionAnalytics: (
-    query?: kraken.ExtensionAnalyticsQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.ExtensionAnalyticsData[]>>;
-  getGameAnalytics: (
-    query?: kraken.GameAnalyticsQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.GameAnalyticsData[]>>;
-
   // Bits
   getCheermotes: (
     query?: kraken.CheermotesQuery,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.CheermotesData[]>>;
-  getBitsLeaderboard: (
-    query?: kraken.BitsLeaderboardQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.BitsLeaderboardData[]>>;
-  getExtensionsTransactions: (
-    query: kraken.ExtensionTransactionQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.ExtensionTransactionData[]>>;
+  ) => Promise<RequestResponse<kraken.Cheermotes>>;
 
-  // Clip
-  createClip: (
-    query: kraken.CreateClipQuery,
+  // Channels
+  getCurrentChannel: (
     options?: Options,
-  ) => Promise<kraken.Response<kraken.CreateClipData[]>>;
-  getClips: (
-    query: kraken.ClipQuery,
+  ) => Promise<RequestResponse<kraken.CurrentChannel>>;
+  getChannel: (
+    channelId: string,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.ClipData[]>>;
+  ) => Promise<RequestResponse<kraken.Channel>>;
+  updateChannel: (
+    channelId: string,
+    body: kraken.UpdateChannelBody,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Channel>>;
+  getChannelEditors: (
+    channelId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.ChannelEditors>>;
+  getChannelFollowers: (
+    channelId: string,
+    query?: kraken.PaginationQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.ChannelFollows>>;
+  getChannelTeams: (
+    channelId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Teams>>;
+  getChannelSubscriptions: (
+    channelId: string,
+    query?: kraken.PaginationQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.ChannelSubscriptions>>;
+  checkChannelSubsctiption: (
+    channelId: string,
+    userId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.ChannelSubscription>>;
+  getChannelVideos: (
+    channelId: string,
+    query?: kraken.VideosQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Videos>>;
+  startChannelCommercial: (
+    channelId: string,
+    body: kraken.ChannelCommercialBody,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.ChannelCommercial>>;
+  resetChannelStreamKey: (
+    channelId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.CurrentChannel>>;
 
-  // Entitlements
-  createEntitlementGrantsUploadURL: (
-    query: kraken.EntitlementGrantsQuery,
+  // Chat
+  getChannelBadges: (
+    channelId: string,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.EntitlementGrantsData[]>>;
-  getCodeStatus: (
-    query: kraken.CodeQuery,
+  ) => Promise<RequestResponse<kraken.ChannelBadges>>;
+  getSetEmoticons: (
+    query?: kraken.EmoticonsSetQuery,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.CodeData[]>>;
-  redeemCode: (
-    query: kraken.CodeQuery,
+  ) => Promise<RequestResponse<kraken.EmoticonsSet>>;
+  getAllEmoticons: (
     options?: Options,
-  ) => Promise<kraken.Response<kraken.CodeData[]>>;
+  ) => Promise<RequestResponse<kraken.Emoticons>>;
+
+  // Clips
+  getClip: (
+    slug: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Clip>>;
+  getTopClips: (
+    query?: kraken.TopClipsQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Clips>>;
+  getFollowedClips: (
+    query?: kraken.FollowedQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Clips>>;
+
+  // Collection
+  getCollectionMetadata: (
+    collectionId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.CollectionMetadata>>;
+  getCollection: (
+    collectionId: string,
+    query?: kraken.CollectionQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Collection>>;
+  getChannelCollections: (
+    channelId: string,
+    query?: kraken.ChannelCollectionQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.ChannelCollections>>;
+  createChannelCollection: (
+    channelId: string,
+    body: kraken.CollectionBody,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.ChannelCollections>>;
+  updateCollection: (
+    collectionId: string,
+    body: kraken.CollectionBody,
+    options?: Options,
+  ) => Promise<RequestResponse>;
+  createCollectionThumbnail: (
+    collectionId: string,
+    body: kraken.CollectionThumbnailBody,
+    options?: Options,
+  ) => Promise<RequestResponse>;
+  deleteCollection: (
+    collectionId: string,
+    options?: Options,
+  ) => Promise<RequestResponse>;
+  addCollectionItem: (
+    collectionId: string,
+    body: kraken.CollectionItemBody,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.CollectionItem>>;
+  deleteCollectionItem: (
+    collectionId: string,
+    itemId: string,
+    options?: Options,
+  ) => Promise<RequestResponse>;
+  moveCollectionItem: (
+    collectionId: string,
+    itemId: string,
+    body: kraken.MoveCollectionItemBody,
+    options?: Options,
+  ) => Promise<RequestResponse>;
 
   // Games
   getTopGames: (
-    query?: kraken.PaginationQuery,
+    query: kraken.PaginationQuery,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.GameData[]>>;
-  getGames: (
-    query: kraken.GameQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.GameData[]>>;
+  ) => Promise<RequestResponse<kraken.TopGames>>;
 
-  // Moderation
-  checkAutoModStatus: (
-    query: kraken.AutoModQuery,
-    body: kraken.AutoModBody,
+  // Ingest
+  getIngestServers: (
     options?: Options,
-  ) => Promise<kraken.Response<kraken.AutoModData[]>>;
-  getBannedUsers: (
-    query: kraken.BannedUserQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.BannedUserData[]>>;
-  getBannedEvents: (
-    query: kraken.EventQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.BannedEventData[]>>;
-  getModerators: (
-    query: kraken.ModeratorQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.ModeratorData[]>>;
-  getModeratorEvents: (
-    query: kraken.EventQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.Event[]>>;
+  ) => Promise<RequestResponse<kraken.IngestServers>>;
 
   // Search
-  searchCategories: (
+  searchChannels: (
     query: kraken.SearchQuery,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.GameData[]>>;
-  searchChannels: (
-    query: kraken.ChannelSearchQuery,
+  ) => Promise<RequestResponse<kraken.Channels>>;
+  searchGames: (
+    query: kraken.SearchQuery,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.ChannelSearchData[]>>;
+  ) => Promise<RequestResponse<kraken.Games>>;
+  searchStreams: (
+    query: kraken.StreamSearchQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Streams>>;
 
   // Streams
-  getStreamKey: (
-    query: kraken.StreamKeyQuery,
+  getStream: (
+    channelId: string,
+    query?: kraken.StreamQuery,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.StreamKeyData[]>>;
+  ) => Promise<RequestResponse<kraken.ChannelStream>>;
   getStreams: (
-    query?: kraken.StreamQuery,
+    query?: kraken.LiveStreamQuery,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.StreamData[]>>;
-  getStreamsMetadata: (
-    query?: kraken.StreamQuery,
+  ) => Promise<RequestResponse<kraken.Streams>>;
+  getStreamsSummary: (
+    query?: kraken.StreamsSummaryQuery,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.StreamMetadata[]>>;
-  createStreamMarker: (
-    body: kraken.CreateStreamMarkerBody,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.CreateStreamMarkerData[]>>;
-  getStreamMarkers: (
-    query: kraken.StreamMarkerQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.StreamMarkerData[]>>;
-
-  // Channels
-  getChannelInformation: (
-    query: kraken.ChannelInformationQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.ChannelInformationData[]>>;
-  modifyChannelInformation: (
-    query: kraken.ModifyChannelInformationQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<RequestResponse>>;
-
-  // Subscriptions
-  getBroadcasterSubscriptions: (
-    query: kraken.BroadcasterSubscriptionQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.BroadcasterSubscriptionData[]>>;
-
-  // Tags
-  getAllStreamTags: (
-    query?: kraken.AllStreamTagsQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.StreamTagData[]>>;
-  getStreamTags: (
-    query: kraken.StreamTagsQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.StreamTagData[]>>;
-  replaceStreamTags: (
-    query: kraken.StreamTagsQuery,
-    body?: kraken.ReplaceStreamTagBody,
-    options?: Options,
-  ) => Promise<RequestResponse>;
-
-  // Users
-  createUserFollow: (
-    body: kraken.CreateUserFollowBody,
-    query?: kraken.CreateUserFollowQuery,
-    options?: Options,
-  ) => Promise<RequestResponse>;
-  deleteUserFollow: (
-    query: kraken.DeleteUserFollowQuery,
-    options?: Options,
-  ) => Promise<RequestResponse>;
-  getUsers: (
-    query?: kraken.UserQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.UserData[]>>;
-  getUserFollows: (
-    query: kraken.UserFollowsQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.UserFollowData[]>>;
-  updateUser: (
-    query?: kraken.UpdateUserQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.UserData[]>>;
-  getUserExtensions: (
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.ExtensionData[]>>;
-  getUserActiveExtensions: (
-    query?: kraken.UserActiveExtensionQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.UserExtensionData>>;
-  updateUserExtensions: (
-    body: kraken.UpdateUserExtensionBody,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.UserExtensionData>>;
-
-  // Videos
-  getVideos: (
-    query: kraken.VideoQuery,
-    options?: Options,
-  ) => Promise<kraken.Response<kraken.VideoData[]>>;
-  getWebhookSubscriptions: (
+  ) => Promise<RequestResponse<kraken.StreamsSummary>>;
+  getFeaturedStreams: (
     query?: kraken.PaginationQuery,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.WebhookSubscriptionData[]>>;
-
-  // Hype
-  getHypeTrainEvents: (
-    query: kraken.HypeTrainEventsQuery,
+  ) => Promise<RequestResponse<kraken.FeaturedStreams>>;
+  getFollowedStreams: (
+    query?: kraken.FollowedStreamQuery,
     options?: Options,
-  ) => Promise<kraken.Response<kraken.HypeTrainEvent[]>>;
+  ) => Promise<RequestResponse<kraken.Streams>>;
+
+  // Teams
+  getTeams: (
+    query?: kraken.PaginationQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Teams>>;
+  getTeam: (
+    teamName: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Team>>;
+
+  // User
+  getCurrentUser: (
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.CurrentUser>>;
+  getUser: (
+    userId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.User>>;
+  getUsers: (
+    query: kraken.UserQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Users>>;
+  getUserEmotes: (
+    userId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.EmoticonsSet>>;
+  checkUserSubsctiption: (
+    userId: string,
+    channelId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.UserSubscription>>;
+  getUserFollows: (
+    userId: string,
+    query?: kraken.UserFollowsQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.UserFollows>>;
+  checkUserFollow: (
+    userId: string,
+    channelId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.UserFollow>>;
+  userFollowChannel: (
+    userId: string,
+    channelId: string,
+    body?: kraken.FollowChannelBody,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.UserFollow>>;
+  userUnfollowChannel: (
+    userId: string,
+    channelId: string,
+    options?: Options,
+  ) => Promise<RequestResponse>;
+  getUserBlocks: (
+    userId: string,
+    query?: kraken.PaginationQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.UserBlocks>>;
+  userBlockUser: (
+    userId: string,
+    blockId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.UserBlock>>;
+  userUnlockUser: (
+    userId: string,
+    blockId: string,
+    options?: Options,
+  ) => Promise<RequestResponse>;
+  createConnectionToVHS: (
+    body: kraken.VHS,
+    options?: Options,
+  ) => Promise<RequestResponse>;
+  checkConnectionToVHS: (
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.VHS>>;
+  deleteConnectionToVHS: (options?: Options) => Promise<RequestResponse>;
+
+  // Videos
+  getVideo: (
+    videoId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Video>>;
+  getTopVideos: (
+    query?: kraken.TopVideosQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Vods>>;
+  getFollowedVideos: (
+    query?: kraken.VideosQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Videos>>;
+  createVideo: (
+    query: kraken.CreateVideoQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.CreatedVideo>>;
+  uploadVideoPart: (
+    videoId: string,
+    query: kraken.UploadVideoPartQuery,
+    body: Blob,
+    options?: Options,
+  ) => Promise<RequestResponse>;
+  completeVideoUpload: (
+    videoId: string,
+    query: kraken.UploadVideoQuery,
+    options?: Options,
+  ) => Promise<RequestResponse>;
+  updateVideo: (
+    videoId: string,
+    query?: kraken.UpdateVideoQuery,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.Video>>;
+  deleteVideo: (
+    videoId: string,
+    options?: Options,
+  ) => Promise<RequestResponse<kraken.DeletedVideo>>;
 }

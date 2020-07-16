@@ -311,7 +311,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     collectionId: string,
     body: kraken.CollectionThumbnailBody,
     options: Options = {},
-  ) {
+  ): Promise<RequestResponse> {
     return execute({
       options,
       method: "PUT",
@@ -528,7 +528,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getUserById(
+  function getUser(
     userId: string,
     options: Options = {},
   ): Promise<RequestResponse<kraken.User>> {
@@ -539,7 +539,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getUser(
+  function getUsers(
     query: kraken.UserQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.Users>> {
@@ -575,13 +575,14 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getUserFollows(
+    userId: string,
     query?: kraken.UserFollowsQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.UserFollows>> {
     return execute<kraken.UserFollows>({
       options,
       method: "GET",
-      path: "/kraken/users/${params[0]}/follows/channels",
+      path: `/kraken/users/${userId}/follows/channels`,
       query,
     });
   }
@@ -746,7 +747,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     query: kraken.UploadVideoPartQuery,
     body: Blob,
     options: Options = {},
-  ) {
+  ): Promise<RequestResponse> {
     if (!options.url) {
       options.url = "https://uploads.twitch.tv";
     }
@@ -768,7 +769,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     videoId: string,
     query: kraken.UploadVideoQuery,
     options: Options = {},
-  ) {
+  ): Promise<RequestResponse> {
     if (!options.url) {
       options.url = "https://uploads.twitch.tv";
     }
@@ -870,8 +871,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
 
     // User
     getCurrentUser,
-    getUserById,
     getUser,
+    getUsers,
     getUserEmotes,
     checkUserSubsctiption,
     getUserFollows,
