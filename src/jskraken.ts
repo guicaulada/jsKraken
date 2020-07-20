@@ -53,7 +53,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getChannel(
-    channelId: string,
+    channelId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.Channel>> {
     return execute<kraken.Channel>({
@@ -64,7 +64,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function updateChannel(
-    channelId: string,
+    channelId: kraken.id,
     body: kraken.UpdateChannelBody,
     options: Options = {},
   ): Promise<RequestResponse<kraken.Channel>> {
@@ -77,7 +77,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getChannelEditors(
-    channelId: string,
+    channelId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.ChannelEditors>> {
     return execute<kraken.ChannelEditors>({
@@ -88,7 +88,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getChannelFollowers(
-    channelId: string,
+    channelId: kraken.id,
     query?: kraken.PaginationQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.ChannelFollows>> {
@@ -101,7 +101,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getChannelTeams(
-    channelId: string,
+    channelId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.Teams>> {
     return execute<kraken.Teams>({
@@ -112,7 +112,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getChannelSubscriptions(
-    channelId: string,
+    channelId: kraken.id,
     query?: kraken.PaginationQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.ChannelSubscriptions>> {
@@ -125,8 +125,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function checkChannelSubsctiption(
-    channelId: string,
-    userId: string,
+    channelId: kraken.id,
+    userId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.ChannelSubscription>> {
     return execute<kraken.ChannelSubscription>({
@@ -137,7 +137,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getChannelVideos(
-    channelId: string,
+    channelId: kraken.id,
     query?: kraken.VideosQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.Videos>> {
@@ -150,7 +150,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function startChannelCommercial(
-    channelId: string,
+    channelId: kraken.id,
     body: kraken.ChannelCommercialBody,
     options: Options = {},
   ): Promise<RequestResponse<kraken.ChannelCommercial>> {
@@ -163,7 +163,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function resetChannelStreamKey(
-    channelId: string,
+    channelId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.CurrentChannel>> {
     return execute<kraken.CurrentChannel>({
@@ -175,7 +175,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
 
   // Chat
   function getChannelBadges(
-    channelId: string,
+    channelId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.ChannelBadges>> {
     return execute<kraken.ChannelBadges>({
@@ -269,7 +269,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getChannelCollections(
-    channelId: string,
+    channelId: kraken.id,
     query?: kraken.ChannelCollectionQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.ChannelCollections>> {
@@ -282,7 +282,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function createChannelCollection(
-    channelId: string,
+    channelId: kraken.id,
     body: kraken.CollectionBody,
     options: Options = {},
   ): Promise<RequestResponse<kraken.ChannelCollections>> {
@@ -433,7 +433,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
 
   // Streams
   function getStream(
-    channelId: string,
+    channelId: kraken.id,
     query?: kraken.StreamQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.ChannelStream>> {
@@ -529,7 +529,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getUser(
-    userId: string,
+    userId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.User>> {
     return execute<kraken.User>({
@@ -552,7 +552,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getUserEmotes(
-    userId: string,
+    userId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.EmoticonsSet>> {
     return execute<kraken.EmoticonsSet>({
@@ -563,8 +563,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function checkUserSubsctiption(
-    userId: string,
-    channelId: string,
+    userId: kraken.id,
+    channelId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.UserSubscription>> {
     return execute<kraken.UserSubscription>({
@@ -575,7 +575,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getUserFollows(
-    userId: string,
+    userId: kraken.id,
     query?: kraken.UserFollowsQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.UserFollows>> {
@@ -588,8 +588,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function checkUserFollow(
-    userId: string,
-    channelId: string,
+    userId: kraken.id,
+    channelId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.UserFollow>> {
     return execute<kraken.UserFollow>({
@@ -600,8 +600,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function userFollowChannel(
-    userId: string,
-    channelId: string,
+    userId: kraken.id,
+    channelId: kraken.id,
     body?: kraken.FollowChannelBody,
     options: Options = {},
   ): Promise<RequestResponse<kraken.UserFollow>> {
@@ -614,8 +614,8 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function userUnfollowChannel(
-    userId: string,
-    channelId: string,
+    userId: kraken.id,
+    channelId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse> {
     return execute({
@@ -626,7 +626,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function getUserBlocks(
-    userId: string,
+    userId: kraken.id,
     query?: kraken.PaginationQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.UserBlocks>> {
@@ -639,7 +639,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function userBlockUser(
-    userId: string,
+    userId: kraken.id,
     blockId: string,
     options: Options = {},
   ): Promise<RequestResponse<kraken.UserBlock>> {
@@ -651,7 +651,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function userUnlockUser(
-    userId: string,
+    userId: kraken.id,
     blockId: string,
     options: Options = {},
   ): Promise<RequestResponse> {

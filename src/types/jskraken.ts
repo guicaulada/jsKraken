@@ -29,55 +29,55 @@ export interface JSKraken {
     options?: Options,
   ) => Promise<RequestResponse<kraken.CurrentChannel>>;
   getChannel: (
-    channelId: string,
+    channelId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.Channel>>;
   updateChannel: (
-    channelId: string,
+    channelId: kraken.id,
     body: kraken.UpdateChannelBody,
     options?: Options,
   ) => Promise<RequestResponse<kraken.Channel>>;
   getChannelEditors: (
-    channelId: string,
+    channelId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.ChannelEditors>>;
   getChannelFollowers: (
-    channelId: string,
+    channelId: kraken.id,
     query?: kraken.PaginationQuery,
     options?: Options,
   ) => Promise<RequestResponse<kraken.ChannelFollows>>;
   getChannelTeams: (
-    channelId: string,
+    channelId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.Teams>>;
   getChannelSubscriptions: (
-    channelId: string,
+    channelId: kraken.id,
     query?: kraken.PaginationQuery,
     options?: Options,
   ) => Promise<RequestResponse<kraken.ChannelSubscriptions>>;
   checkChannelSubsctiption: (
-    channelId: string,
-    userId: string,
+    channelId: kraken.id,
+    userId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.ChannelSubscription>>;
   getChannelVideos: (
-    channelId: string,
+    channelId: kraken.id,
     query?: kraken.VideosQuery,
     options?: Options,
   ) => Promise<RequestResponse<kraken.Videos>>;
   startChannelCommercial: (
-    channelId: string,
+    channelId: kraken.id,
     body: kraken.ChannelCommercialBody,
     options?: Options,
   ) => Promise<RequestResponse<kraken.ChannelCommercial>>;
   resetChannelStreamKey: (
-    channelId: string,
+    channelId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.CurrentChannel>>;
 
   // Chat
   getChannelBadges: (
-    channelId: string,
+    channelId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.ChannelBadges>>;
   getSetEmoticons: (
@@ -113,12 +113,12 @@ export interface JSKraken {
     options?: Options,
   ) => Promise<RequestResponse<kraken.Collection>>;
   getChannelCollections: (
-    channelId: string,
+    channelId: kraken.id,
     query?: kraken.ChannelCollectionQuery,
     options?: Options,
   ) => Promise<RequestResponse<kraken.ChannelCollections>>;
   createChannelCollection: (
-    channelId: string,
+    channelId: kraken.id,
     body: kraken.CollectionBody,
     options?: Options,
   ) => Promise<RequestResponse<kraken.ChannelCollections>>;
@@ -180,7 +180,7 @@ export interface JSKraken {
 
   // Streams
   getStream: (
-    channelId: string,
+    channelId: kraken.id,
     query?: kraken.StreamQuery,
     options?: Options,
   ) => Promise<RequestResponse<kraken.ChannelStream>>;
@@ -216,7 +216,7 @@ export interface JSKraken {
     options?: Options,
   ) => Promise<RequestResponse<kraken.CurrentUser>>;
   getUser: (
-    userId: string,
+    userId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.User>>;
   getUsers: (
@@ -224,47 +224,47 @@ export interface JSKraken {
     options?: Options,
   ) => Promise<RequestResponse<kraken.Users>>;
   getUserEmotes: (
-    userId: string,
+    userId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.EmoticonsSet>>;
   checkUserSubsctiption: (
-    userId: string,
-    channelId: string,
+    userId: kraken.id,
+    channelId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.UserSubscription>>;
   getUserFollows: (
-    userId: string,
+    userId: kraken.id,
     query?: kraken.UserFollowsQuery,
     options?: Options,
   ) => Promise<RequestResponse<kraken.UserFollows>>;
   checkUserFollow: (
-    userId: string,
-    channelId: string,
+    userId: kraken.id,
+    channelId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.UserFollow>>;
   userFollowChannel: (
-    userId: string,
-    channelId: string,
+    userId: kraken.id,
+    channelId: kraken.id,
     body?: kraken.FollowChannelBody,
     options?: Options,
   ) => Promise<RequestResponse<kraken.UserFollow>>;
   userUnfollowChannel: (
-    userId: string,
-    channelId: string,
+    userId: kraken.id,
+    channelId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse>;
   getUserBlocks: (
-    userId: string,
+    userId: kraken.id,
     query?: kraken.PaginationQuery,
     options?: Options,
   ) => Promise<RequestResponse<kraken.UserBlocks>>;
   userBlockUser: (
-    userId: string,
+    userId: kraken.id,
     blockId: string,
     options?: Options,
   ) => Promise<RequestResponse<kraken.UserBlock>>;
   userUnlockUser: (
-    userId: string,
+    userId: kraken.id,
     blockId: string,
     options?: Options,
   ) => Promise<RequestResponse>;

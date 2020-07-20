@@ -116,7 +116,7 @@ export interface Channel {
 export interface UpdateChannelData {
   status?: string;
   game?: string;
-  delay?: string;
+  delay?: integer;
   channel_feed_enabled?: boolean;
 }
 
@@ -224,7 +224,7 @@ export interface Video {
   game: string;
   language: string;
   length: integer;
-  muted_segments: MutedSegment[];
+  muted_segments?: MutedSegment[];
   preview: Thumbnails;
   published_at: string;
   resolutions: map<string>;
