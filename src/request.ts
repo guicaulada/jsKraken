@@ -41,7 +41,7 @@ function serialize(obj?: RequestQuery): string {
 
 function tryJSON<T>(json: string): RequestMessage | RequestData<T> {
   try {
-    return { data: JSON.parse(json) as T };
+    return JSON.parse(json) as T;
   } catch {
     return { message: json };
   }
@@ -62,11 +62,16 @@ function getAllResponseHeaders(httpRequest: XMLHttpRequest): RequestHeaders {
   return allHeaders;
 }
 
-function response<T>(httpRequest: XMLHttpRequest): RequestResponse<T> {
+function response<T>(
+  httpRequest: XMLHttpRequest,
+  withData = false,
+): RequestResponse<T> {
   return {
     status: httpRequest.status,
     headers: getAllResponseHeaders(httpRequest),
-    ...tryJSON<T>(httpRequest.responseText),
+    ...(withData
+      ? { data: tryJSON<T>(httpRequest.responseText) }
+      : tryJSON<T>(httpRequest.responseText)),
   } as RequestResponse<T>;
 }
 
@@ -87,7 +92,7 @@ export default function request<T>({
     httpRequest.onreadystatechange = (): void => {
       if (httpRequest.readyState == 4) {
         if (Number(httpRequest.status.toString()[0]) == 2) {
-          resolve(response<T>(httpRequest));
+          resolve(response<T>(httpRequest, true));
         } else {
           reject(response<T>(httpRequest));
         }
