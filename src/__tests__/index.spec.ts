@@ -5,13 +5,13 @@ import * as kraken from "../types/kraken";
 const TWITCH_CLIENT = process.env.TWITCH_CLIENT || "";
 const TWITCH_TOKEN = process.env.TWITCH_TOKEN || "";
 
-// let TWITCH_USER: kraken.CurrentUser;
+let TWITCH_USER: kraken.CurrentUser;
 let TWITCH_CHANNEL: kraken.CurrentChannel;
 
 describe("index", () => {
   beforeAll(async () => {
     const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
-    // TWITCH_USER = (await kapi.getCurrentUser()).data;
+    TWITCH_USER = (await kapi.getCurrentUser()).data!;
     TWITCH_CHANNEL = (await kapi.getCurrentChannel()).data!;
   });
 
@@ -62,6 +62,304 @@ describe("index", () => {
         expect(tier.min_bits).toBeDefined();
       });
     });
+  });
+
+  it("Calls getCurrentChannel with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    const result = await kapi.getCurrentChannel();
+    expect(result.data).toBeDefined();
+    expect(result.data!._id).toBeDefined();
+    expect(result.data!.broadcaster_language).toBeDefined();
+    expect(result.data!.broadcaster_type).toBeDefined();
+    expect(result.data!.created_at).toBeDefined();
+    expect(result.data!.display_name).toBeDefined();
+    expect(result.data!.email).toBeDefined();
+    expect(result.data!.followers).toBeDefined();
+    expect(result.data!.game).toBeDefined();
+    expect(result.data!.language).toBeDefined();
+    expect(result.data!.logo).toBeDefined();
+    expect(result.data!.mature).toBeDefined();
+    expect(result.data!.name).toBeDefined();
+    expect(result.data!.partner).toBeDefined();
+    expect(result.data!.profile_banner).toBeDefined();
+    expect(result.data!.profile_banner_background_color).toBeDefined();
+    expect(result.data!.status).toBeDefined();
+    expect(result.data!.stream_key).toBeDefined();
+    expect(result.data!.updated_at).toBeDefined();
+    expect(result.data!.url).toBeDefined();
+    expect(result.data!.video_banner).toBeDefined();
+    expect(result.data!.views).toBeDefined();
+  });
+
+  it("Calls getChannel with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    const result = await kapi.getChannel(TWITCH_CHANNEL._id);
+    expect(result.data).toBeDefined();
+    expect(result.data!._id).toBeDefined();
+    expect(result.data!.broadcaster_language).toBeDefined();
+    expect(result.data!.created_at).toBeDefined();
+    expect(result.data!.display_name).toBeDefined();
+    expect(result.data!.followers).toBeDefined();
+    expect(result.data!.game).toBeDefined();
+    expect(result.data!.language).toBeDefined();
+    expect(result.data!.logo).toBeDefined();
+    expect(result.data!.mature).toBeDefined();
+    expect(result.data!.name).toBeDefined();
+    expect(result.data!.partner).toBeDefined();
+    expect(result.data!.profile_banner).toBeDefined();
+    expect(result.data!.profile_banner_background_color).toBeDefined();
+    expect(result.data!.status).toBeDefined();
+    expect(result.data!.updated_at).toBeDefined();
+    expect(result.data!.url).toBeDefined();
+    expect(result.data!.video_banner).toBeDefined();
+    expect(result.data!.views).toBeDefined();
+  });
+
+  it("Calls updateChannel with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    const result = await kapi.updateChannel(TWITCH_CHANNEL._id, {
+      channel: {
+        delay: 0,
+      },
+    });
+    expect(result.data).toBeDefined();
+    expect(result.data!._id).toBeDefined();
+    expect(result.data!.broadcaster_language).toBeDefined();
+    expect(result.data!.created_at).toBeDefined();
+    expect(result.data!.display_name).toBeDefined();
+    expect(result.data!.followers).toBeDefined();
+    expect(result.data!.game).toBeDefined();
+    expect(result.data!.language).toBeDefined();
+    expect(result.data!.logo).toBeDefined();
+    expect(result.data!.mature).toBeDefined();
+    expect(result.data!.name).toBeDefined();
+    expect(result.data!.partner).toBeDefined();
+    expect(result.data!.profile_banner).toBeDefined();
+    expect(result.data!.profile_banner_background_color).toBeDefined();
+    expect(result.data!.status).toBeDefined();
+    expect(result.data!.updated_at).toBeDefined();
+    expect(result.data!.url).toBeDefined();
+    expect(result.data!.video_banner).toBeDefined();
+    expect(result.data!.views).toBeDefined();
+  });
+
+  it("Calls getChannelEditors with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    const result = await kapi.getChannelEditors(TWITCH_CHANNEL._id);
+    expect(result.data).toBeDefined();
+    expect(result.data!.users).toBeDefined();
+    result.data!.users.forEach((user) => {
+      expect(user._id).toBeDefined();
+      expect(user.bio).toBeDefined();
+      expect(user.created_at).toBeDefined();
+      expect(user.display_name).toBeDefined();
+      expect(user.logo).toBeDefined();
+      expect(user.name).toBeDefined();
+      expect(user.type).toBeDefined();
+      expect(user.updated_at).toBeDefined();
+    });
+  });
+
+  it("Calls getChannelFollowers with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    const result = await kapi.getChannelFollowers(TWITCH_CHANNEL._id);
+    expect(result.data).toBeDefined();
+    expect(result.data!._cursor).toBeDefined();
+    expect(result.data!._total).toBeDefined();
+    expect(result.data!.follows).toBeDefined();
+    result.data!.follows.forEach((follow) => {
+      expect(follow.created_at).toBeDefined();
+      expect(follow.notifications).toBeDefined();
+      expect(follow.user).toBeDefined();
+      expect(follow.user._id).toBeDefined();
+      expect(follow.user.bio).toBeDefined();
+      expect(follow.user.created_at).toBeDefined();
+      expect(follow.user.display_name).toBeDefined();
+      expect(follow.user.logo).toBeDefined();
+      expect(follow.user.name).toBeDefined();
+      expect(follow.user.type).toBeDefined();
+      expect(follow.user.updated_at).toBeDefined();
+    });
+  });
+
+  it("Calls getChannelTeams with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    const result = await kapi.getChannelTeams(TWITCH_CHANNEL._id);
+    expect(result.data).toBeDefined();
+    expect(result.data!.teams).toBeDefined();
+    result.data!.teams.forEach((team) => {
+      expect(team._id).toBeDefined();
+      expect(team.background).toBeDefined();
+      expect(team.banner).toBeDefined();
+      expect(team.created_at).toBeDefined();
+      expect(team.display_name).toBeDefined();
+      expect(team.info).toBeDefined();
+      expect(team.logo).toBeDefined();
+      expect(team.name).toBeDefined();
+      expect(team.updated_at).toBeDefined();
+    });
+  });
+
+  it("Calls getChannelSubscribers with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    try {
+      const result = await kapi.getChannelSubscriptions(TWITCH_CHANNEL._id);
+      expect(result.data).toBeDefined();
+      expect(result.data!._total).toBeDefined();
+      expect(result.data!.subscriptions).toBeDefined();
+      result.data!.subscriptions.forEach((sub) => {
+        expect(sub._id).toBeDefined();
+        expect(sub.created_at).toBeDefined();
+        expect(sub.sub_plan).toBeDefined();
+        expect(sub.sub_plan_name).toBeDefined();
+        expect(sub.user).toBeDefined();
+        expect(sub.user._id).toBeDefined();
+        expect(sub.user.bio).toBeDefined();
+        expect(sub.user.created_at).toBeDefined();
+        expect(sub.user.display_name).toBeDefined();
+        expect(sub.user.logo).toBeDefined();
+        expect(sub.user.name).toBeDefined();
+        expect(sub.user.type).toBeDefined();
+        expect(sub.user.updated_at).toBeDefined();
+      });
+    } catch (result) {
+      expect(result.error).toBeDefined();
+      expect(result.message).toEqual(
+        `${TWITCH_CHANNEL.name} does not have a subscription program`,
+      );
+    }
+  });
+
+  it("Calls checkChannelSubsctiption with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    try {
+      const result = await kapi.checkChannelSubsctiption(
+        TWITCH_CHANNEL._id,
+        TWITCH_USER._id,
+      );
+      expect(result.data).toBeDefined();
+      expect(result.data!._id).toBeDefined();
+      expect(result.data!.created_at).toBeDefined();
+      expect(result.data!.sub_plan).toBeDefined();
+      expect(result.data!.sub_plan_name).toBeDefined();
+      expect(result.data!.user).toBeDefined();
+      expect(result.data!.user._id).toBeDefined();
+      expect(result.data!.user.bio).toBeDefined();
+      expect(result.data!.user.created_at).toBeDefined();
+      expect(result.data!.user.display_name).toBeDefined();
+      expect(result.data!.user.logo).toBeDefined();
+      expect(result.data!.user.name).toBeDefined();
+      expect(result.data!.user.type).toBeDefined();
+      expect(result.data!.user.updated_at).toBeDefined();
+    } catch (result) {
+      expect(result.error).toBeDefined();
+      expect(result.message).toEqual(
+        `${TWITCH_USER._id} has no subscriptions to ${TWITCH_CHANNEL._id}`,
+      );
+    }
+  });
+
+  it("Calls getChannelVideos with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    const result = await kapi.getChannelVideos(TWITCH_CHANNEL._id);
+    expect(result.data!._total).toBeDefined();
+    expect(result.data!.videos).toBeDefined();
+    result.data!.videos.forEach((video) => {
+      expect(video._id).toBeDefined();
+      expect(video.broadcast_id).toBeDefined();
+      expect(video.broadcast_type).toBeDefined();
+      expect(video.channel).toBeDefined();
+      expect(video.channel._id).toBeDefined();
+      expect(video.channel.display_name).toBeDefined();
+      expect(video.channel.name).toBeDefined();
+      expect(video.created_at).toBeDefined();
+      expect(video.description).toBeDefined();
+      expect(video.description_html).toBeDefined();
+      expect(video.fps).toBeDefined();
+      Object.values(video.fps).forEach((fps) => {
+        expect(fps).toBeDefined();
+      });
+      expect(video.game).toBeDefined();
+      expect(video.language).toBeDefined();
+      if (video.muted_segments) {
+        video.muted_segments.forEach((mutedSegment) => {
+          expect(mutedSegment.duration).toBeDefined();
+          expect(mutedSegment.offset).toBeDefined();
+        });
+      }
+      expect(video.preview).toBeDefined();
+      expect(video.preview.large).toBeDefined();
+      expect(video.preview.medium).toBeDefined();
+      expect(video.preview.small).toBeDefined();
+      expect(video.preview.template).toBeDefined();
+      expect(video.published_at).toBeDefined();
+      expect(video.resolutions).toBeDefined();
+      Object.values(video.resolutions).forEach((res) => {
+        expect(res).toBeDefined();
+      });
+      expect(video.status).toBeDefined();
+      expect(video.tag_list).toBeDefined();
+      expect(video.thumbnails).toBeDefined();
+      expect(video.thumbnails.large).toBeDefined();
+      expect(video.thumbnails.large[0].type).toBeDefined();
+      expect(video.thumbnails.large[0].url).toBeDefined();
+      expect(video.thumbnails.medium).toBeDefined();
+      expect(video.thumbnails.medium[0].type).toBeDefined();
+      expect(video.thumbnails.medium[0].url).toBeDefined();
+      expect(video.thumbnails.small).toBeDefined();
+      expect(video.thumbnails.small[0].type).toBeDefined();
+      expect(video.thumbnails.small[0].url).toBeDefined();
+      expect(video.thumbnails.template).toBeDefined();
+      expect(video.thumbnails.template[0].type).toBeDefined();
+      expect(video.thumbnails.template[0].url).toBeDefined();
+      expect(video.title).toBeDefined();
+      expect(video.url).toBeDefined();
+      expect(video.viewable).toBeDefined();
+      expect(video.viewable_at).toBeDefined();
+      expect(video.views).toBeDefined();
+    });
+  });
+
+  it("Calls checkChannelSubsctiption with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    try {
+      const result = await kapi.startChannelCommercial(TWITCH_CHANNEL._id, {
+        length: 30,
+      });
+      expect(result.data).toBeDefined();
+      expect(result.data!.Length).toBeDefined();
+      expect(result.data!.Message).toBeDefined();
+      expect(result.data!.RetryAfter).toBeDefined();
+    } catch (result) {
+      expect(result.error).toEqual("Internal Server Error");
+    }
+  });
+
+  it("Calls resetChannelStreamKey with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    const result = await kapi.resetChannelStreamKey(TWITCH_CHANNEL._id);
+    expect(result.data).toBeDefined();
+    expect(result.data!._id).toBeDefined();
+    expect(result.data!.broadcaster_language).toBeDefined();
+    expect(result.data!.broadcaster_type).toBeDefined();
+    expect(result.data!.created_at).toBeDefined();
+    expect(result.data!.display_name).toBeDefined();
+    expect(result.data!.email).toBeDefined();
+    expect(result.data!.followers).toBeDefined();
+    expect(result.data!.game).toBeDefined();
+    expect(result.data!.language).toBeDefined();
+    expect(result.data!.logo).toBeDefined();
+    expect(result.data!.mature).toBeDefined();
+    expect(result.data!.name).toBeDefined();
+    expect(result.data!.partner).toBeDefined();
+    expect(result.data!.profile_banner).toBeDefined();
+    expect(result.data!.profile_banner_background_color).toBeDefined();
+    expect(result.data!.status).toBeDefined();
+    expect(result.data!.stream_key).toBeDefined();
+    expect(result.data!.updated_at).toBeDefined();
+    expect(result.data!.url).toBeDefined();
+    expect(result.data!.video_banner).toBeDefined();
+    expect(result.data!.views).toBeDefined();
   });
 
   // it("Calls getExtensionAnalytics with clientId and token", async () => {
