@@ -262,6 +262,7 @@ describe("index", () => {
   it("Calls getChannelVideos with clientId and token", async () => {
     const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
     const result = await kapi.getChannelVideos(TWITCH_CHANNEL._id);
+    expect(result.data).toBeDefined();
     expect(result.data!._total).toBeDefined();
     expect(result.data!.videos).toBeDefined();
     result.data!.videos.forEach((video) => {
@@ -360,6 +361,85 @@ describe("index", () => {
     expect(result.data!.url).toBeDefined();
     expect(result.data!.video_banner).toBeDefined();
     expect(result.data!.views).toBeDefined();
+  });
+
+  it("Calls getChannelBadges with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    const result = await kapi.getChannelBadges(TWITCH_CHANNEL._id);
+    expect(result.data).toBeDefined();
+    expect(result.data!.admin).toBeDefined();
+    expect(result.data!.broadcaster).toBeDefined();
+    expect(result.data!.global_mod).toBeDefined();
+    expect(result.data!.mod).toBeDefined();
+    expect(result.data!.staff).toBeDefined();
+    expect(result.data!.subscriber).toBeDefined();
+    expect(result.data!.turbo).toBeDefined();
+    Object.values(result.data!).forEach((badge: kraken.ChannelBadge) => {
+      if (badge) {
+        expect(badge.alpha).toBeDefined();
+        expect(badge.image).toBeDefined();
+        expect(badge.svg).toBeDefined();
+      }
+    });
+  });
+
+  it("Calls getSetEmoticons with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    const result = await kapi.getSetEmoticons({
+      emotesets: [19151, 19150],
+    });
+    expect(result.data).toBeDefined();
+    expect(result.data!.emoticon_sets).toBeDefined();
+    Object.values(result.data!.emoticon_sets!).forEach((set) => {
+      set.forEach((emote) => {
+        expect(emote.code).toBeDefined();
+        expect(emote.id).toBeDefined();
+      });
+    });
+  });
+
+  it("Calls getAllEmoticons with clientId", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    try {
+      const result = await kapi.getAllEmoticons();
+      expect(result.data).toBeDefined();
+      expect(result.data!._links).toBeDefined();
+      expect(result.data!.emoticons).toBeDefined();
+      result.data!.emoticons.forEach((emote) => {
+        expect(emote.id).toBeDefined();
+        expect(emote.images).toBeDefined();
+        expect(emote.regex).toBeDefined();
+        expect(emote.images.emoticon_set).toBeDefined();
+        expect(emote.images.height).toBeDefined();
+        expect(emote.images.url).toBeDefined();
+        expect(emote.images.width).toBeDefined();
+      });
+    } catch (result) {
+      expect(result.status).toBe(400);
+      expect(result.message).toContain("Unsupported Authorization Type");
+    }
+  });
+
+  it("Calls getAllEmoticons with clientId and token", async () => {
+    const kapi = jsKraken(TWITCH_CLIENT, TWITCH_TOKEN);
+    try {
+      const result = await kapi.getAllEmoticons();
+      expect(result.data).toBeDefined();
+      expect(result.data!._links).toBeDefined();
+      expect(result.data!.emoticons).toBeDefined();
+      result.data!.emoticons.forEach((emote) => {
+        expect(emote.id).toBeDefined();
+        expect(emote.images).toBeDefined();
+        expect(emote.regex).toBeDefined();
+        expect(emote.images.emoticon_set).toBeDefined();
+        expect(emote.images.height).toBeDefined();
+        expect(emote.images.url).toBeDefined();
+        expect(emote.images.width).toBeDefined();
+      });
+    } catch (result) {
+      expect(result.status).toBe(400);
+      expect(result.message).toContain("Unsupported Authorization Type");
+    }
   });
 
   // it("Calls getExtensionAnalytics with clientId and token", async () => {

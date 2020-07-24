@@ -293,7 +293,7 @@ export interface EmoticonImage {
 export interface Emoticon {
   id: integer;
   regex: string;
-  images: EmoticonImage[];
+  images: EmoticonImage;
 }
 
 export interface SelfLink {
