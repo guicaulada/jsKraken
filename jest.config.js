@@ -9,9 +9,13 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
-  coveragePathIgnorePatterns: ["<rootDir>/node_modules/(?!@foo)"],
+  coveragePathIgnorePatterns: [
+    "<rootDir>/node_modules/(?!@foo)",
+    "src/__tests__/helper.ts",
+  ],
   transformIgnorePatterns: ["<rootDir>/node_modules/(?!@foo)"],
   modulePathIgnorePatterns: ["^.+\\.mock.ts?$"],
+  testPathIgnorePatterns: ["src/__tests__/helper.ts"],
   collectCoverageFrom: ["src/**/*.ts"],
   coverageReporters: ["lcov", "text"],
   reporters: ["default", "jest-junit"],

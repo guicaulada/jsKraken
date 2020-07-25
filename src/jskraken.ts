@@ -281,12 +281,12 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function createChannelCollection(
+  function createCollection(
     channelId: kraken.id,
     body: kraken.CollectionBody,
     options: Options = {},
-  ): Promise<RequestResponse<kraken.ChannelCollections>> {
-    return execute<kraken.ChannelCollections>({
+  ): Promise<RequestResponse<kraken.CollectionMetadata>> {
+    return execute<kraken.CollectionMetadata>({
       options,
       method: "POST",
       path: `/kraken/channels/${channelId}/collections`,
@@ -372,7 +372,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
 
   // Games
   function getTopGames(
-    query: kraken.PaginationQuery,
+    query?: kraken.PaginationQuery,
     options: Options = {},
   ): Promise<RequestResponse<kraken.TopGames>> {
     return execute<kraken.TopGames>({
@@ -599,7 +599,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function userFollowChannel(
+  function followChannel(
     userId: kraken.id,
     channelId: kraken.id,
     body?: kraken.FollowChannelBody,
@@ -613,7 +613,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function userUnfollowChannel(
+  function unfollowChannel(
     userId: kraken.id,
     channelId: kraken.id,
     options: Options = {},
@@ -625,7 +625,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function getUserBlocks(
+  function getBlockedUsers(
     userId: kraken.id,
     query?: kraken.PaginationQuery,
     options: Options = {},
@@ -638,9 +638,9 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function userBlockUser(
+  function blockUser(
     userId: kraken.id,
-    blockId: string,
+    blockId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.UserBlock>> {
     return execute({
@@ -650,9 +650,9 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     });
   }
 
-  function userUnlockUser(
+  function unblockUser(
     userId: kraken.id,
-    blockId: string,
+    blockId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse> {
     return execute({
@@ -751,11 +751,6 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     if (!options.url) {
       options.url = "https://uploads.twitch.tv";
     }
-    if (!options.headers) {
-      options.headers = {
-        "Content-Length": body.size.toString(),
-      };
-    }
     return execute({
       options,
       method: "PUT",
@@ -795,7 +790,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
   }
 
   function deleteVideo(
-    videoId: string,
+    videoId: kraken.id,
     options: Options = {},
   ): Promise<RequestResponse<kraken.DeletedVideo>> {
     return execute<kraken.DeletedVideo>({
@@ -839,7 +834,7 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     getCollectionMetadata,
     getCollection,
     getChannelCollections,
-    createChannelCollection,
+    createCollection,
     updateCollection,
     createCollectionThumbnail,
     deleteCollection,
@@ -877,11 +872,11 @@ export default function jsKraken(clientId: string, token?: string): JSKraken {
     checkUserSubsctiption,
     getUserFollows,
     checkUserFollow,
-    userFollowChannel,
-    userUnfollowChannel,
-    getUserBlocks,
-    userBlockUser,
-    userUnlockUser,
+    followChannel,
+    unfollowChannel,
+    getBlockedUsers,
+    blockUser,
+    unblockUser,
     createConnectionToVHS,
     checkConnectionToVHS,
     deleteConnectionToVHS,

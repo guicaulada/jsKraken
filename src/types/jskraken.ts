@@ -117,11 +117,11 @@ export interface JSKraken {
     query?: kraken.ChannelCollectionQuery,
     options?: Options,
   ) => Promise<RequestResponse<kraken.ChannelCollections>>;
-  createChannelCollection: (
+  createCollection: (
     channelId: kraken.id,
     body: kraken.CollectionBody,
     options?: Options,
-  ) => Promise<RequestResponse<kraken.ChannelCollections>>;
+  ) => Promise<RequestResponse<kraken.CollectionMetadata>>;
   updateCollection: (
     collectionId: string,
     body: kraken.CollectionBody,
@@ -155,7 +155,7 @@ export interface JSKraken {
 
   // Games
   getTopGames: (
-    query: kraken.PaginationQuery,
+    query?: kraken.PaginationQuery,
     options?: Options,
   ) => Promise<RequestResponse<kraken.TopGames>>;
 
@@ -242,30 +242,30 @@ export interface JSKraken {
     channelId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.UserFollow>>;
-  userFollowChannel: (
+  followChannel: (
     userId: kraken.id,
     channelId: kraken.id,
     body?: kraken.FollowChannelBody,
     options?: Options,
   ) => Promise<RequestResponse<kraken.UserFollow>>;
-  userUnfollowChannel: (
+  unfollowChannel: (
     userId: kraken.id,
     channelId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse>;
-  getUserBlocks: (
+  getBlockedUsers: (
     userId: kraken.id,
     query?: kraken.PaginationQuery,
     options?: Options,
   ) => Promise<RequestResponse<kraken.UserBlocks>>;
-  userBlockUser: (
+  blockUser: (
     userId: kraken.id,
-    blockId: string,
+    blockId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.UserBlock>>;
-  userUnlockUser: (
+  unblockUser: (
     userId: kraken.id,
-    blockId: string,
+    blockId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse>;
   createConnectionToVHS: (
@@ -311,7 +311,7 @@ export interface JSKraken {
     options?: Options,
   ) => Promise<RequestResponse<kraken.Video>>;
   deleteVideo: (
-    videoId: string,
+    videoId: kraken.id,
     options?: Options,
   ) => Promise<RequestResponse<kraken.DeletedVideo>>;
 }

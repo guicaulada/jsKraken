@@ -1,7 +1,7 @@
 export type integer = number;
 export type float = number;
 
-export type repeatable = string | string[];
+export type repeatable = id | id[];
 
 export type map<T> = {
   [key: string]: T;
@@ -125,7 +125,7 @@ export interface UpdateChannelBody {
 }
 
 export interface User {
-  _id: integer;
+  _id: id;
   bio: string;
   created_at: string;
   display_name: string;
@@ -305,15 +305,7 @@ export interface Emoticons {
   emoticons: Emoticon[];
 }
 
-export interface ClipBroadcaster {
-  id: string;
-  name: string;
-  display_name: string;
-  channel_url: string;
-  logo: string;
-}
-
-export interface ClipCurator {
+export interface ClipUser {
   id: string;
   name: string;
   display_name: string;
@@ -338,8 +330,8 @@ export interface Clip {
   url: string;
   embed_url: string;
   embed_html: string;
-  broadcaster: ClipBroadcaster;
-  curator: ClipCurator;
+  broadcaster: ClipUser;
+  curator: ClipUser;
   vod: ClipVod;
   game: string;
   language: string;
@@ -366,17 +358,6 @@ export interface FollowedQuery extends PaginationQuery {
   trending?: boolean;
 }
 
-export interface CollectionOwner {
-  _id: string;
-  bio: string;
-  created_at: string;
-  display_name: string;
-  logo: string;
-  name: string;
-  type: string;
-  updated_at: string;
-}
-
 export interface Thumbnails {
   large: string;
   medium: string;
@@ -388,7 +369,7 @@ export interface CollectionMetadata {
   _id: string;
   created_at: string;
   items_count: integer;
-  owner: CollectionOwner;
+  owner: User;
   thumbnails: Thumbnails;
   title: string;
   total_duration: integer;
@@ -407,7 +388,7 @@ export interface CollectionItem {
   game: string;
   item_id: string;
   item_type: string;
-  owner: CollectionOwner;
+  owner: User;
   published_at: string;
   thumbnails: Thumbnails;
   title: string;
@@ -452,9 +433,7 @@ export interface Game {
   name: string;
 }
 
-export interface TopGame {
-  channels: integer;
-  viewers: integer;
+export interface TopGame extends StreamsSummary {
   game: Game;
 }
 
@@ -636,7 +615,7 @@ export interface Vods {
 }
 
 export interface CreateVideoQuery {
-  channel_id: string;
+  channel_id: id;
   title: string;
   description?: string;
   game?: string;
