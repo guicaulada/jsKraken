@@ -9,7 +9,7 @@ kapi
   .getCurrentUser()
   .then((user) => {
     kapi
-      .getUserFollows(user.data!._id.toString())
+      .getUserFollows(user.data!._id)
       .then((data) => {
         console.log(data);
       })
